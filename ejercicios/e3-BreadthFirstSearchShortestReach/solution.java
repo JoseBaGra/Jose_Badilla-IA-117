@@ -1,161 +1,101 @@
+/*
+
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 import java.io.*;
 import java.util.*;
 import java.text.*;
 import java.math.*;
 import java.util.regex.*;
 
-public class Solution {
-	// menor a mayor	
+/**
+ *
+ * @author joseb
+ */
+public class BFS {
+
+    // menor a mayor	
 	
 	public static class Graph{
-		int[][] AdjacencyMatrix;
-		int edges;
-		int initalNode;
+                private final int cost = 6;
+                private final int notFound = -1;
+		private ArrayList<ArrayList<Integer>> edges;
+		private int qtyEdges;
+		private int initalNode;
 		
-		Graph(int pNodes, int pEdges){
-			AdjacencyMatrix = new int[pNodes][pNodes];
-			for(int i=0; i < pNodes; i++){
-				for(int j=0; j < pNodes; j++){
-					AdjacencyMatrix[i][j] = -1;
-				}
+		Graph(int pQtyNodes, int pQtyEdges){
+			edges = new ArrayList<>();
+			for(int i=0; i < pQtyNodes; i++){
+                            edges.add(new ArrayList<Integer>());
 			}
-			edges = pEdges;
+			qtyEdges = pQtyEdges;
 		}
 		
 		public void setInitalNode(int pInitialNode){
-			initalNode = pInitialNode - 1;
+                    initalNode = pInitialNode - 1;
 		}
 
 		public void addEdge(int pNodeA, int pNodeB){
-			AdjacencyMatrix[pNodeA-1][pNodeB-1] = 6;
-			AdjacencyMatrix[pNodeB-1][pNodeA-1] = 6;
+                    edges.get(pNodeA-1).add(pNodeB-1);
+                    edges.get(pNodeB-1).add(pNodeA-1);
 		}
 		
-		public void getConnections(){
-			for (int node=0; node < AdjacencyMatrix.length; node++) {
-				if(node != initalNode){
-					getConnection(initalNode,node);
-				}
-			}
-			System.out.print("\n");
-		}
-
-		void printMatrix(){
-			for(int i=0; i < AdjacencyMatrix.length; i++){
-				for(int j=0; j < AdjacencyMatrix.length; j++){
-					System.out.print(AdjacencyMatrix[i][j]+"\t");
-				}
-				System.out.println(" ");
-			}
-		}
-
-				
-		private final int found  = -1;
-		private void getConnection(int pNodeA, int pNodeB){
-			ArrayList<Integer> visited = new ArrayList<Integer>();
-			ArrayList<Integer> posibilities = new ArrayList<Integer>();
-			visited.add(pNodeB);
-			if(AdjacencyMatrix[pNodeB][pNodeA] == 6){
-				visited.add(found);
-				System.out.print("6 ");
-			}
-			else{
-				for (int node = 0; node < AdjacencyMatrix.length; node ++) {
-					if(AdjacencyMatrix[pNodeB][node]==6){
-						posibilities.add(node);
-					}
-				}
-				
-				if(posibilities.size() == 0){
-					System.out.print("-1 ");
-				}
-				else{
-					ArrayList<Integer> returnValue;
-					ArrayList<Integer> pivot;
-
-					returnValue = getConnectionAux(pNodeA,posibilities.get(0),(ArrayList<Integer>)visited.clone());
-					for (int posibility = 1; posibility < posibilities.size(); posibility++) {
-						pivot = getConnectionAux(pNodeA,posibilities.get(posibility),(ArrayList<Integer>)visited.clone());
-						if(pivot==null){continue;}
-						else if(pivot.size() < returnValue.size() && pivot.get(pivot.size()-1) == found){
-							returnValue = pivot;
-						}
-					}
-					if(returnValue != null){System.out.print(((returnValue.size()-1)*6)+" ");}
-					else{System.out.print("-1 ");}
-				}
-			}
-
-		}
-
-		private ArrayList<Integer> getConnectionAux(int pNodeA, int pNodeB, ArrayList<Integer> pVisited){
-			ArrayList<Integer> posibilities = new ArrayList<Integer>();
-			pVisited.add(pNodeB);
-			if(AdjacencyMatrix[pNodeB][pNodeA] == 6){
-				pVisited.add(found);
-				return pVisited;
-			}
-			else{
-				for (int node = 0; node < AdjacencyMatrix.length; node ++) {
-					if(AdjacencyMatrix[pNodeB][node]==6 && pVisited.indexOf(node) == -1){
-						posibilities.add(node);
-					}
-				}
-			}
-
-			if(posibilities.size() == 0){
-				return null;
-			}
-			else{
-				ArrayList<Integer> returnValue;
-				ArrayList<Integer> pivot;
-				returnValue = getConnectionAux(pNodeA,posibilities.get(0),(ArrayList<Integer>)pVisited.clone());
-				for (int posibility = 1; posibility < posibilities.size(); posibility++) {
-					pivot = getConnectionAux(pNodeA,posibilities.get(posibility),(ArrayList<Integer>)pVisited.clone());
-					if(pivot==null){continue;}
-					else if(pivot.size() < returnValue.size() && pivot.get(pivot.size()-1) == found){
-						returnValue = pivot;
-					}
-				}
-				return returnValue;
-			}
-		}
+                
+                private void getConnections(){
+                    ArrayList<Integer> remaining = new ArrayList<>();
+                    ArrayList<Integer> remainingAux = new ArrayList<>();
+                    ArrayList<Integer> visited = new ArrayList<>();
+                    ArrayList<Integer> found = new ArrayList<>();
+                    HashMap<Integer,Integer> nodes = new HashMap<>();
+                    int wheight = cost;
+                    remaining.add(initalNode);
+                    while(!remaining.isEmpty()){
+                        for (int i = 0; i < remaining.size(); i++) {
+                            visited.add(remaining.get(i));
+                            for(int node : edges.get(remaining.get(i))){
+                                if(found.indexOf(node) == -1){
+                                    found.add(node);
+                                    nodes.put(node, wheight);
+                                }
+                                if(visited.indexOf(node) == -1 && remainingAux.indexOf(node) == -1){
+                                    remainingAux.add(node);
+                                }
+                            }
+                        }
+                        remaining = (ArrayList<Integer>)remainingAux.clone();
+                        remainingAux.clear();
+                        wheight+=cost;
+                    }
+                    for (int node = 0; node < edges.size(); node++) {
+                        if(node==initalNode){continue;}
+                        if(nodes.containsKey(node)){System.out.print(nodes.get(node)+" ");}
+                        else{System.out.print(notFound+" ");}
+                    }
+                    System.out.println("");
+                }
+		
 	}
 	
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		int quantityProblems = Integer.parseInt(in.nextLine());
-		ArrayList problems = new ArrayList();
-		String inputLine;
-		String[] numbers;
-		ArrayList<Graph> graphs = new ArrayList<Graph>();
-		int graphNumber = 0;
-		while(quantityProblems>0){
-			int iteration = 0;
-			while(true){
-				inputLine = in.nextLine();
-				numbers = inputLine.split(" ");
-				if(numbers.length>1){
-					if(!(iteration==0)){
-						graphs.get(graphNumber).addEdge(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1]));
-					}
-					else{
-						graphs.add(new Graph(Integer.parseInt(numbers[0]), Integer.parseInt(numbers[1])));
-						iteration++;
-					}
-						
-				}
-				else{
-					graphs.get(graphNumber).setInitalNode(Integer.parseInt(numbers[0]));
-					quantityProblems--;
-					graphNumber++;
-					break;
-				}
-			}
-		}
-		for ( Graph graph : graphs) {
-			graph.getConnections();
-			
-		}
+            Scanner in = new Scanner(System.in);
+            int quantityProblems = in.nextInt();
+            int edges;
+            int nodes;
+            Graph tempGraph;
+            for(;quantityProblems>0;quantityProblems--){
+                nodes = in.nextInt();
+                edges = in.nextInt();
+                tempGraph = new Graph(nodes, edges);
+                for (; edges > 0; edges--) {
+                    tempGraph.addEdge(in.nextInt(), in.nextInt());
+                }
+                tempGraph.setInitalNode(in.nextInt());
+                tempGraph.getConnections();
+                
+            }
 	}
+    
 }
