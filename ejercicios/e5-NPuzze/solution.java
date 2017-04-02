@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//package npuzzle;
 
 import java.awt.Point;
 import java.util.*;
@@ -14,7 +13,7 @@ import java.util.*;
  */
 public class NPuzzle {
     
-    public static class Node{
+    public static class Node implements Comparator<Node>, Comparable<Node>{
         private Node parent;
         private int[][] puzzle;
         private int H;
@@ -64,7 +63,48 @@ public class NPuzzle {
                 aux = aux.getParent();
             }
             System.out.print(moves+"\n"+path);
-        }	
+        }   
+
+        @Override
+        public int compare(Node o1, Node o2) {
+            return o1.getG() - o2.getG();
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.getG() - o.getG();
+        }
+        
+        @Override
+        public boolean equals(Object o){
+            if(o instanceof Node){
+                boolean resp = true;
+                notEquals:
+                for (int colunm = 0; colunm < ((Node) o).getPuzzle().length; colunm++) {
+                    for (int row = 0; row < ((Node) o).getPuzzle().length; row++) {
+                        if(this.puzzle[colunm][row] != ((Node) o).getPuzzle()[colunm][row]){
+                            resp = false;
+                            break notEquals;
+                        }
+                    }
+                }
+                return resp;
+            }
+            else{
+                return false;
+            }
+        }
+        
+        @Override
+        public int hashCode(){
+            String hash = "";
+            for (int colunm = 0; colunm < puzzle.length; colunm++) {
+                for (int row = 0; row < puzzle.length; row++) {
+                    hash += puzzle[colunm][row];
+                }
+            }
+            return hash.hashCode();
+        }
     }
     
     public static int H(Point pLocation, int pWanted, int[][] pPuzzle){
@@ -80,42 +120,25 @@ public class NPuzzle {
     }
     
     public static void SolvePuzzle(int[][] pPuzzle){
-        ArrayList<Node> openList = new ArrayList<>();
+        PriorityQueue<Node> openList = new PriorityQueue<Node>();
         ArrayList<Node> posibleList = new ArrayList<>();
-        ArrayList<Node> closeList = new ArrayList<>();
+        HashSet<Node> closeList = new HashSet<>();
         Node initial = new Node(null, pPuzzle);
         boolean found = false;
-        closeList.add(initial);
-        addRoutes(initial, openList);
         openList.add(initial);
         while(!found){
-            int minG = Integer.MAX_VALUE;
-            Node minNode = null;
-            for(Node node : openList){
-                if(minG > node.getG()){
-                    minG = node.getG();
-                    minNode = node;
-                }
+            Node minNode = openList.poll();
+            if(minNode.getH()==0){
+                found = true;
+                minNode.PrintSolution();
+                break;
             }
-            
-            //System.out.println("OPEN "+openList.size());
-            //System.out.println("CLOSE "+closeList.size()+"\n");
-            
             closeList.add(minNode);
-            openList.remove(minNode);
             addRoutes(minNode,posibleList);
-            deleteBFromA(posibleList, openList);
-            deleteBFromA(posibleList, closeList);
+            posibleList.removeAll(openList);
+            posibleList.removeAll(closeList);
             openList.addAll(posibleList);
             posibleList.clear();
-
-            for(Node node : openList){
-                if(node.getH()==0){
-                    found = true;
-                    node.PrintSolution();
-                    break;
-                }
-            }
         }
     }
     
@@ -173,30 +196,6 @@ public class NPuzzle {
             pivotPuzzle[pieceX][pieceY-1] = 0;
             pOpenList.add(new Node(pStart,pStart.getF()+1,"LEFT",pivotPuzzle));
         }
-    }
-
-    public static void deleteBFromA(ArrayList<Node> pA, ArrayList<Node> pB){
-        for(Node b : pB){
-            for (int i = 0; i < pA.size(); i++) {
-                if(AEquealsB(b.getPuzzle(), pA.get(i).getPuzzle())){
-                    pA.remove(i);
-                }							
-            }
-        }
-    }
-    
-    public static boolean AEquealsB(int[][] pA, int[][]pB){
-        boolean resp = true;
-        notEquals:
-        for (int colunm = 0; colunm < pA.length; colunm++) {
-            for (int row = 0; row < pA.length; row++) {
-                if(pA[colunm][row] != pB[colunm][row]){
-                    resp = false;
-                    break notEquals;
-                }
-            }
-        }
-        return resp;
     }
     
     public static void main(String[] args) {
