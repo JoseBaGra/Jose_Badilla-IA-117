@@ -63,7 +63,7 @@ public class NPuzzle {
                 aux = aux.getParent();
             }
             System.out.print(moves+"\n"+path);
-        }   
+        }	
 
         @Override
         public int compare(Node o1, Node o2) {
@@ -121,7 +121,7 @@ public class NPuzzle {
     
     public static void SolvePuzzle(int[][] pPuzzle){
         PriorityQueue<Node> openList = new PriorityQueue<Node>();
-        ArrayList<Node> posibleList = new ArrayList<>();
+        HashSet<Node> posibleList = new HashSet<>();
         HashSet<Node> closeList = new HashSet<>();
         Node initial = new Node(null, pPuzzle);
         boolean found = false;
@@ -154,7 +154,7 @@ public class NPuzzle {
     
     //movable piece
     public static final int moveablePiece = 0;
-    public static void addRoutes(Node pStart, ArrayList<Node> pOpenList){
+    public static void addRoutes(Node pStart, Collection<Node> pOpenList){
         if(pStart==null){return;}
         
         int pieceX = 0;
