@@ -13,4 +13,5 @@ import java.awt.Point;
  */
 public class Action {
     private Point _movement;
+    
 }
