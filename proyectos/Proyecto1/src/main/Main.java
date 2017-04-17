@@ -1,8 +1,7 @@
 package main;
 
 import controller.TaxiSimulator;
-
-
+import controller.Utils;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,6 +21,8 @@ public class Main {
      */
     public static void main(String[] args){
         // TODO code application logic here
+        TaxiSimulator tx = new TaxiSimulator();
+        tx.takeARide();
     }
     
 }

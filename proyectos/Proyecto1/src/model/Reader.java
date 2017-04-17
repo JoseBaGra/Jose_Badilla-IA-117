@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author joseb
  */
-public  class Reader {
+public final class Reader {
     public static final String FILENAME = "map.txt";
     public static final Character TAXI = 't';
     public static final Character EMPTY = ' ';
