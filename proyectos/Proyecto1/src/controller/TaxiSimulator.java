@@ -42,6 +42,10 @@ public class TaxiSimulator {
             }
         }
         System.out.println(_taxiLocation.x + " " + _taxiLocation.y);
+        
+        pivotMap[_taxiLocation.x] = Utils.changeCharInPosition(_taxiLocation.y, Utils.moveableTaxi, pivotMap[_taxiLocation.x]);
+        Utils.AStar(pivotMap, _taxiLocation, new Point(1, 1));
+        
         while(!navigableSpaces.isEmpty()) {            
             double minValue = Integer.MAX_VALUE;
             Point minPoint = null;

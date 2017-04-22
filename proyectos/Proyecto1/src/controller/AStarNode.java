@@ -23,16 +23,16 @@ public class AStarNode implements Comparator<AStarNode>, Comparable<AStarNode>{
         map = pMap;
     }
 
-    public AStarNode(AStarNode pParent, int pG, String pMove, String[] pMap){
+    public AStarNode(AStarNode pParent, int pH, int pG, String pMove, String[] pMap){
         parent = pParent;
         map = pMap;
+        H = pH;
         G = pG;
         move = pMove;
     }
 
     public void setParent(AStarNode pParent) {parent = pParent;}
     public AStarNode getParent() {return parent;}
-    public void setG(int G) {this.G = G;}
     public int getG() {return G;}
     public int getH() {return H;}
     public int getF(){return (G+H);}
@@ -53,12 +53,12 @@ public class AStarNode implements Comparator<AStarNode>, Comparable<AStarNode>{
 
     @Override
     public int compare(AStarNode o1, AStarNode o2) {
-        return o1.getG() - o2.getG();
+        return o1.getF() - o2.getF();
     }
 
     @Override
     public int compareTo(AStarNode o) {
-        return this.getG() - o.getG();
+        return this.getF() - o.getF();
     }
 
     @Override
