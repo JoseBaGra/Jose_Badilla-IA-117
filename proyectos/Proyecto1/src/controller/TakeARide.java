@@ -11,16 +11,14 @@ import java.awt.Point;
  *
  * @author joseb
  */
-public class Action {
-    private Point _movement;
-
-    public Action(Point pMovement) {
-        _movement = pMovement;
+public class TakeARide extends Action {
+    
+    public TakeARide(Point pMovement) {
+        super(pMovement);
     }
     
+    @Override
     public void execute(TaxiSimulator pTaxiSimulator){
         
     }
-    
-    public Point getMovement() {return _movement;}
 }

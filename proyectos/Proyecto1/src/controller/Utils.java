@@ -35,4 +35,9 @@ public final class Utils {
     public static final char moveableTaxi = 't';
     public static final char recorredByTaxi = '-';
     public static final char navigableSpace = ' ';
+    
+    public static void AStar(){
+        
+    }
+    
 }
