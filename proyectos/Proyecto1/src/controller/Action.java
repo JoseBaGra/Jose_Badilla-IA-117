@@ -22,5 +22,6 @@ public class Action {
         // TODO code application logic here
     }
     
-    public Point getMovement() {return _movement;}
+    public Point getMovement() {return _movement;}  
+    
 }

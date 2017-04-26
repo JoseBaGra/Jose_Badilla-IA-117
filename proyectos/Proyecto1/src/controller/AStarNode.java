@@ -5,6 +5,8 @@
  */
 package controller;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -39,7 +41,7 @@ public class AStarNode implements Comparator<AStarNode>, Comparable<AStarNode>{
     public String getMove(){return move;}
     public String[] getMap(){return map;}
 
-    public void PrintSolution(){
+    public void printSolution(){
         AStarNode aux = this;
         int moves = 0;
         String path = "";
@@ -49,7 +51,17 @@ public class AStarNode implements Comparator<AStarNode>, Comparable<AStarNode>{
             aux = aux.getParent();
         }
         System.out.print(moves+"\n"+path);
-    }	
+    }
+    
+    public ArrayList<Point> getSolution(){
+        ArrayList<Point> returnValue = new ArrayList<>();
+        AStarNode aux = this;
+        while(aux.getParent()!=null){
+            returnValue.add(0,Utils.getTaxiLocation(aux.getMap()));
+            aux = aux.getParent();
+        }
+        return returnValue;
+    }
 
     @Override
     public int compare(AStarNode o1, AStarNode o2) {
