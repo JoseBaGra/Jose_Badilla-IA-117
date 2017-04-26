@@ -53,6 +53,7 @@ public final class Utils {
     public static final char recorredByTaxi = '-';
     public static final char navigableSpace = ' ';
     public static final char unnavigableSpace = '*';
+    public static final char smoke = '.';
     public static final char TaxiDown='↓';
     public static final char TaxiLeft='←';
     public static final char TaxiRight='→';

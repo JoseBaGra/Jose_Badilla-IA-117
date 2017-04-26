@@ -35,6 +35,7 @@ public class TaxiFrame extends javax.swing.JFrame {
     private static ImageIcon Road = new ImageIcon(new ImageIcon("src/img/Road.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon RoadRoute = new ImageIcon(new ImageIcon("src/img/RoadRoute.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon Sidewalk = new ImageIcon(new ImageIcon("src/img/Sidewalk.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static ImageIcon Smoke = new ImageIcon(new ImageIcon("src/img/Smoke.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon TaxiDown = new ImageIcon(new ImageIcon("src/img/TaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon TaxiLeft = new ImageIcon(new ImageIcon("src/img/TaxiLeft.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon TaxiRight = new ImageIcon(new ImageIcon("src/img/TaxiRight.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
@@ -48,6 +49,7 @@ public class TaxiFrame extends javax.swing.JFrame {
         Icons.put('+', RoadRoute);
         Icons.put('-', Sidewalk);
         Icons.put('*', Grass);
+        Icons.put('.', Smoke);
         Icons.put('↓', TaxiDown);
         Icons.put('←', TaxiLeft);
         Icons.put('→', TaxiRight);

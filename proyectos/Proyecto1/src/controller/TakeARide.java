@@ -5,9 +5,6 @@
  */
 package controller;
 
-import static controller.Utils.changeCharInPosition;
-import static controller.Utils.moveableTaxi;
-import static controller.Utils.navigableSpace;
 import java.awt.Point;
 
 /**
@@ -30,7 +27,7 @@ public class TakeARide extends Action {
         else if(taxiLocation.y > getMovement().y){move = Utils.TaxiLeft;}
         else if(taxiLocation.y < getMovement().y){move = Utils.TaxiRight;}
         pTaxiSimulator.setTaxiLocation(getMovement());
-        map[taxiLocation.x] = changeCharInPosition(taxiLocation.y, navigableSpace, map[taxiLocation.x]);
-        map[getMovement().x] = changeCharInPosition(getMovement().y, move, map[getMovement().x]);
+        map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.smoke, map[taxiLocation.x]);
+        map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
     }
 }

@@ -27,7 +27,7 @@ public class Main {
         tx.setTaxiFrame(tf);
         tf.setVisible(true);
         tx.start();
-        tx.setSleep(500);
+        tx.setSleep(100);
         tx.takeARide();
     }
     

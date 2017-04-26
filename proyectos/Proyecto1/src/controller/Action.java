@@ -13,15 +13,12 @@ import java.awt.Point;
  */
 public class Action {
     private Point _movement;
-
     public Action(Point pMovement) {
         _movement = pMovement;
     }
-    
     public void execute(TaxiSimulator pTaxiSimulator){
         // TODO code application logic here
     }
-    
     public Point getMovement() {return _movement;}  
     
 }
