@@ -7,14 +7,16 @@ package view;
 
 import controller.TaxiSimulator;
 import controller.Utils;
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,31 +28,30 @@ public class TaxiFrame extends javax.swing.JFrame {
      * Creates new form TaxiFrame
      */
     
-    private static int SIZE = 35;
+    private static final int SIZE = 35;
     
     private static TaxiSimulator _taxiSimulator;
-    private static ImageIcon BusyTaxiDown = new ImageIcon(new ImageIcon("src/img/BusyTaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon BusyTaxiLeft = new ImageIcon(new ImageIcon("src/img/BusyTaxiLeft.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon BusyTaxiRight = new ImageIcon(new ImageIcon("src/img/BusyTaxiRight.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon BusyTaxiUp = new ImageIcon(new ImageIcon("src/img/BusyTaxiUp.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Dirt = (new ImageIcon("src/img/Dirt.jpg"));
-    private static ImageIcon Grass = new ImageIcon(new ImageIcon("src/img/Grass.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Road = new ImageIcon(new ImageIcon("src/img/Road.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Person1 = new ImageIcon(new ImageIcon("src/img/Person1.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Person2 = new ImageIcon(new ImageIcon("src/img/Person2.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Person3 = new ImageIcon(new ImageIcon("src/img/Person3.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Person4 = new ImageIcon(new ImageIcon("src/img/Person4.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon RoadRoute = new ImageIcon(new ImageIcon("src/img/RoadRoute.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Sidewalk = new ImageIcon(new ImageIcon("src/img/Sidewalk.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon Smoke = new ImageIcon(new ImageIcon("src/img/Smoke.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon TaxiDown = new ImageIcon(new ImageIcon("src/img/TaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon TaxiLeft = new ImageIcon(new ImageIcon("src/img/TaxiLeft.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon TaxiRight = new ImageIcon(new ImageIcon("src/img/TaxiRight.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
-    private static ImageIcon TaxiUp = new ImageIcon(new ImageIcon("src/img/TaxiUp.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon BusyTaxiDown = new ImageIcon(new ImageIcon("src/img/BusyTaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon BusyTaxiLeft = new ImageIcon(new ImageIcon("src/img/BusyTaxiLeft.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon BusyTaxiRight = new ImageIcon(new ImageIcon("src/img/BusyTaxiRight.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon BusyTaxiUp = new ImageIcon(new ImageIcon("src/img/BusyTaxiUp.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Dirt = (new ImageIcon("src/img/Dirt.jpg"));
+    private static final ImageIcon Grass = new ImageIcon(new ImageIcon("src/img/Grass.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Road = new ImageIcon(new ImageIcon("src/img/Road.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Person1 = new ImageIcon(new ImageIcon("src/img/Person1.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Person2 = new ImageIcon(new ImageIcon("src/img/Person2.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Person3 = new ImageIcon(new ImageIcon("src/img/Person3.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Person4 = new ImageIcon(new ImageIcon("src/img/Person4.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon RoadRoute = new ImageIcon(new ImageIcon("src/img/RoadRoute.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Sidewalk = new ImageIcon(new ImageIcon("src/img/Sidewalk.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon Smoke = new ImageIcon(new ImageIcon("src/img/Smoke.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon TaxiDown = new ImageIcon(new ImageIcon("src/img/TaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon TaxiLeft = new ImageIcon(new ImageIcon("src/img/TaxiLeft.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon TaxiRight = new ImageIcon(new ImageIcon("src/img/TaxiRight.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static final ImageIcon TaxiUp = new ImageIcon(new ImageIcon("src/img/TaxiUp.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     
     private static final Map<Character, ImageIcon> Icons;
-    static
-    {
+    static{
         Icons = new HashMap<>();
         Icons.put(' ', Road);
         Icons.put('+', RoadRoute);
@@ -100,11 +101,21 @@ public class TaxiFrame extends javax.swing.JFrame {
                 }
                 else{
                     thumb = new JLabel("<html><span style='font-size:"+(SIZE-3)+"px;color:white;'>"+line.charAt(j)+"</span></html>");
+                    thumb.setHorizontalTextPosition(thumb.CENTER);
+                    thumb.setIcon(Road);
                 }
                 PNLRoad.add(thumb);
                 thumb.setLocation(j * SIZE , i * SIZE);
                 thumb.setSize(SIZE, SIZE);
                 thumb.setVisible(true);
+                JFrame frame = this;
+                final int x = i; 
+                final int y = j;
+                thumb.addMouseListener(new MouseAdapter()  {  
+                    public void mouseClicked(MouseEvent e){
+                        JOptionPane.showMessageDialog(frame,"Postion ("+x+","+y+")");
+                    }  
+                }); 
                 labels.add(thumb);
             }
             imgLabels.add(labels);
@@ -121,9 +132,12 @@ public class TaxiFrame extends javax.swing.JFrame {
                         ||  imgLabels.get(i).get(j).getIcon() == Person2
                         ||  imgLabels.get(i).get(j).getIcon() == Person3 
                         ||  imgLabels.get(i).get(j).getIcon() == Person4)){
-                        int  n =  (int )(Math.random() * 4 + 1);
+                        int  n = ((i+j)%4)+1;
                         imgLabels.get(i).get(j).setIcon(Icons.get((char) n));
                     }
+                }
+                else if(String.valueOf(line.charAt(j)).matches("[a-zA-Z]")){
+                    
                 }
                 else if(imgLabels.get(i).get(j).getIcon() != Icons.get(line.charAt(j))){
                     imgLabels.get(i).get(j).setIcon(Icons.get(line.charAt(j)));

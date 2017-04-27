@@ -29,10 +29,7 @@ public class TaxiOptions extends javax.swing.JFrame {
     }
     
     private void setValues(){
-        TFLDClientX.setText("");
-        TFLDClientY.setText("");
-        TFLDClients.setText("");
-        TFLDMS.setText("");
+        LBLMS.setText("Actual MS:" + _taxiSimulator.getSleep());
         if(_taxiSimulator.getSleep() == 0){BTNNextMove.setEnabled(true);}
         else{BTNNextMove.setEnabled(false);}
         
@@ -68,10 +65,11 @@ public class TaxiOptions extends javax.swing.JFrame {
         TFLDClientY = new javax.swing.JTextField();
         BTNAddClient = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        Parking = new javax.swing.JTextField();
+        TFLDParking = new javax.swing.JTextField();
         BTNPark = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        LBLMS = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -131,7 +129,6 @@ public class TaxiOptions extends javax.swing.JFrame {
 
         jLabel3.setText("Add clients");
 
-        TFLDClients.setText(" ");
         TFLDClients.setPreferredSize(new java.awt.Dimension(40, 22));
         TFLDClients.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,7 +145,6 @@ public class TaxiOptions extends javax.swing.JFrame {
 
         jLabel4.setText("Add client to");
 
-        TFLDClientX.setText(" ");
         TFLDClientX.setPreferredSize(new java.awt.Dimension(40, 22));
         TFLDClientX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,7 +152,6 @@ public class TaxiOptions extends javax.swing.JFrame {
             }
         });
 
-        TFLDClientY.setText(" ");
         TFLDClientY.setPreferredSize(new java.awt.Dimension(40, 22));
         TFLDClientY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -173,8 +168,12 @@ public class TaxiOptions extends javax.swing.JFrame {
 
         jLabel5.setText("Park in");
 
-        Parking.setText(" ");
-        Parking.setPreferredSize(new java.awt.Dimension(30, 22));
+        TFLDParking.setPreferredSize(new java.awt.Dimension(30, 22));
+        TFLDParking.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFLDParkingActionPerformed(evt);
+            }
+        });
 
         BTNPark.setText("OK");
         BTNPark.addActionListener(new java.awt.event.ActionListener() {
@@ -186,6 +185,8 @@ public class TaxiOptions extends javax.swing.JFrame {
         jLabel2.setText("x");
 
         jLabel6.setText("y");
+
+        LBLMS.setText("Actual ms:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,36 +201,42 @@ public class TaxiOptions extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Parking, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TFLDParking, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(BTNPark)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(BTNShowTrail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BTNTakeARide, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(BTNSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(BTNShowTravel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(BTNShowTrail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(BTNTakeARide, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(BTNSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LBLMS))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BTNShowTravel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(TFLDClientX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(TFLDClientY, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(BTNAddClient))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(TFLDClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(BTNAddClients)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(3, 3, 3)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel2)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(TFLDClientX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel6)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(TFLDClientY, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(BTNAddClient))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(TFLDClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(BTNAddClients)))))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -244,7 +251,9 @@ public class TaxiOptions extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(BTNTakeARide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BTNTakeARide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LBLMS))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BTNSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -273,7 +282,7 @@ public class TaxiOptions extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(Parking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TFLDParking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BTNPark))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -286,6 +295,7 @@ public class TaxiOptions extends javax.swing.JFrame {
             int ms = Integer.parseInt(TFLDMS.getText());
             if(ms>=0){
                 _taxiSimulator.setSleep(ms);
+                TFLDMS.setText("");
             }
             else{
                 JOptionPane.showMessageDialog(this,"MS can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
@@ -316,6 +326,8 @@ public class TaxiOptions extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this,"That's an invalid position.","Error",JOptionPane.ERROR_MESSAGE);
                         }
                         else{
+                            TFLDClientX.setText("");
+                            TFLDClientY.setText("");
                             setValues();
                         }
                     }
@@ -346,7 +358,15 @@ public class TaxiOptions extends javax.swing.JFrame {
     }//GEN-LAST:event_TFLDClientsActionPerformed
 
     private void BTNParkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNParkActionPerformed
-        // TODO add your handling code here:
+        if(!TFLDParking.getText().equals("")){
+            int resp = _taxiSimulator.parkIn(TFLDParking.getText());
+            if(resp == -1){
+                JOptionPane.showMessageDialog(this,"'" + TFLDParking.getText() + "' doesn't exist.","Error",JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                TFLDParking.setText("");
+            }
+        }
     }//GEN-LAST:event_BTNParkActionPerformed
 
     private void BTNTakeARideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNTakeARideActionPerformed
@@ -367,6 +387,7 @@ public class TaxiOptions extends javax.swing.JFrame {
             int clients = Integer.parseInt(TFLDClients.getText());
             if(clients>0){
                 _taxiSimulator.addClients(clients);
+                TFLDClients.setText("");
             }
             else{
                 JOptionPane.showMessageDialog(this,"Clients can't be negative nor zero.","Error",JOptionPane.ERROR_MESSAGE);
@@ -390,6 +411,10 @@ public class TaxiOptions extends javax.swing.JFrame {
     private void TFLDMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDMSActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TFLDMSActionPerformed
+
+    private void TFLDParkingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDParkingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TFLDParkingActionPerformed
 
     /**
      * @param args the command line arguments
@@ -437,11 +462,12 @@ public class TaxiOptions extends javax.swing.JFrame {
     private javax.swing.JButton BTNShowTrail;
     private javax.swing.JButton BTNShowTravel;
     private javax.swing.JButton BTNTakeARide;
-    private javax.swing.JTextField Parking;
+    private javax.swing.JLabel LBLMS;
     private javax.swing.JTextField TFLDClientX;
     private javax.swing.JTextField TFLDClientY;
     private javax.swing.JTextField TFLDClients;
     private javax.swing.JTextField TFLDMS;
+    private javax.swing.JTextField TFLDParking;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -6,6 +6,7 @@
 package controller;
 
 import java.awt.Point;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -161,6 +162,55 @@ public class TaxiSimulator extends Thread{
         return 1;
     }
     
+    // 1=good, -1=not found
+    public int parkIn(String pLocation){
+        boolean found = false;
+        int x = 0, y = 0;
+        for (x = 0; x < _map.length; x++) {
+            if(_map[x].contains(pLocation)){
+                found = true;
+                y = _map[x].indexOf(pLocation);
+                break;
+            }
+        }
+        
+        if(found){
+            Point minPoint = null;
+            double minValue = Float.MAX_VALUE;
+            if(minValue > _taxiLocation.distance(new Point(x-2,y-2)) && x-2 > 0 && y-2 > 0){
+                minValue = _taxiLocation.distance(new Point(x-2,y-2));
+                minPoint = new Point(x-2,y-2);
+            }
+            if(minValue > _taxiLocation.distance(new Point(x-2,y+2)) && x-2 > 0 && y+2 < _map[x].length()){
+                minValue = _taxiLocation.distance(new Point(x-2,y+2));
+                minPoint = new Point(x-2,y+2);
+            }
+            if(minValue > _taxiLocation.distance(new Point(x+2,y-2)) && x+2 < _map.length && y-2 > 0){
+                minValue = _taxiLocation.distance(new Point(x+2,y-2));
+                minPoint = new Point(x+2,y-2);
+            }
+            if(minValue > _taxiLocation.distance(new Point(x+2,y+2)) && x+2 < _map.length && y+2 < _map[x].length()){
+                minValue = _taxiLocation.distance(new Point(x+2,y+2));
+                minPoint = new Point(x+2,y+2);
+            }
+            
+            Point taxiPivot = (Point)_taxiLocation.clone();
+            String[] navigableMap = _navigableMap.clone();
+            navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
+            ArrayList<Point> moves = Utils.AStar(navigableMap, taxiPivot, minPoint);
+            while(!moves.isEmpty()){
+                Point move = moves.get(0);
+                moves.remove(move);
+                _actionsQueue.add(new Park(move, (ArrayList<Point>) moves.clone()));
+            }
+            
+            return 1;
+        }
+        else{
+            return -1;
+        }
+    }
+    
     public void takeARide(){
         ArrayList<Point> navigableSpaces = new ArrayList<>();
         
@@ -178,7 +228,7 @@ public class TaxiSimulator extends Thread{
         ArrayList<Point> moves = null;
         String[] navigableMap = _navigableMap.clone();
         while(!navigableSpaces.isEmpty()) {            
-            double minValue = Integer.MAX_VALUE;
+            double minValue = Float.MAX_VALUE;
             Point minPoint = null;
             for(Point point : navigableSpaces){
                 if(minValue > point.distance(taxiPivot)){
@@ -242,7 +292,7 @@ public class TaxiSimulator extends Thread{
             
             moves = Utils.AStar(navigableMap, taxiPivot, minPoint);
             for(Point move : moves){
-                _actionsQueue.add(new TakeARide(move));
+                _actionsQueue.add(new SearchClient(move));
             }
             
             navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.navigableSpace, navigableMap[taxiPivot.x]);
@@ -283,6 +333,7 @@ public class TaxiSimulator extends Thread{
                 if(!lastAction.equals(_actionsQueue.peek().getClass().getSimpleName())){
                     lastAction = _actionsQueue.peek().getClass().getSimpleName();
                     clearPlottableMap();
+                    new Action(_taxiLocation).fixMap(this);
                 }
                 _actionsQueue.poll().execute(this);
                 if(_taxiFrame != null){
@@ -294,6 +345,7 @@ public class TaxiSimulator extends Thread{
             }
             else{
                 clearPlottableMap();
+                new Action(_taxiLocation).fixMap(this);
                 try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
         }
