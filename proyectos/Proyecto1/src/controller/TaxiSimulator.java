@@ -83,6 +83,10 @@ public class TaxiSimulator extends Thread{
         for (int line = 0; line < _plottableMap.length; line++) {
             _plottableMap[line] = _plottableMap[line].replace(Utils.smoke, Utils.navigableSpace);
             _plottableMap[line] = _plottableMap[line].replace(Utils.route, Utils.navigableSpace);
+            _plottableMap[line] = _plottableMap[line].replace(Utils.BusyTaxiDown, Utils.TaxiDown);
+            _plottableMap[line] = _plottableMap[line].replace(Utils.BusyTaxiLeft, Utils.TaxiLeft);
+            _plottableMap[line] = _plottableMap[line].replace(Utils.BusyTaxiRight, Utils.TaxiRight);
+            _plottableMap[line] = _plottableMap[line].replace(Utils.BusyTaxiUp, Utils.TaxiUp);
         }
         _taxiFrame.refeshLabels();
     }
@@ -128,6 +132,33 @@ public class TaxiSimulator extends Thread{
             pCuantity--;
         }
         _taxiFrame.refeshLabels();
+    }
+    
+    // 1=good, -1=colision, -2 invalid
+    public int addClient(int pStartX, int pStartY){
+        for(Client client : _clients){
+            if(client.getStart().x == pStartX && client.getStart().y == pStartY){
+                return -1;
+            }
+        }
+        
+        if(_navigableMap[pStartX].charAt(pStartY) != Utils.navigableSpace){
+            return -2;
+        }
+        
+        Random rand = new Random();
+        int  TargetX = (int)(Math.random() * (_navigableMap.length-2) + 1);
+        ArrayList<Integer> indexes = Utils.getLocationsOfChar(_navigableMap[TargetX], Utils.navigableSpace);
+        int TargetY = indexes.get(rand.nextInt(indexes.size()));
+        while(pStartX == TargetX || pStartY == TargetY){
+            TargetX = (int)(Math.random() * (_navigableMap.length-2) + 1);
+            indexes = Utils.getLocationsOfChar(_navigableMap[TargetX], Utils.navigableSpace);
+            TargetY = indexes.get(rand.nextInt(indexes.size()));
+        }
+        _clients.add(new Client(new Point(pStartX, pStartY), new Point(TargetX, TargetY)));
+        _plottableMap[pStartX] = Utils.changeCharInPosition(pStartY, Utils.client, _plottableMap[pStartX]);
+        _taxiFrame.refeshLabels();
+        return 1;
     }
     
     public void takeARide(){
