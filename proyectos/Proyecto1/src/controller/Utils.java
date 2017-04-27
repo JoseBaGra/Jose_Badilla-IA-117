@@ -55,6 +55,7 @@ public final class Utils {
     public static final char unnavigableSpace = '*';
     public static final char route = '+';
     public static final char smoke = '.';
+    public static final char client = ',';
     public static final char TaxiDown='↓';
     public static final char TaxiLeft='←';
     public static final char TaxiRight='→';

@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Reader;
@@ -24,6 +25,7 @@ public class TaxiSimulator extends Thread{
     private String[] _plottableMap;
     private Point _taxiLocation;
     private Queue<Action> _actionsQueue;
+    private ArrayList<Client> _clients;
     private TaxiFrame _taxiFrame;
     private boolean _showTrail = false;
     private boolean _showTravel = false;
@@ -39,6 +41,7 @@ public class TaxiSimulator extends Thread{
         _plottableMap = _map.clone();
         _plottableMap[_taxiLocation.x] = Utils.changeCharInPosition(_taxiLocation.y, Utils.TaxiUp, _plottableMap[_taxiLocation.x]);
         _actionsQueue = new LinkedList<>();
+        _clients = new ArrayList<>();
     }
 
     public String[] getMap() {return _map;}
@@ -59,8 +62,12 @@ public class TaxiSimulator extends Thread{
     }
     
     public boolean isShowTravel() {return _showTravel;}
-    public void setShowTravel(boolean _showTravel) {this._showTravel = _showTravel;}
+    public void setShowTravel(boolean _showTravel) {
+        this._showTravel = _showTravel;
+        if(!_showTravel){clearPlottableMap();}
+    }
     
+    public ArrayList<Client> getClients() {return _clients;}
     
     public Point getTaxiLocation() {return _taxiLocation;}
     public void setTaxiLocation(Point _taxiLocation) {this._taxiLocation = _taxiLocation;}
@@ -69,6 +76,50 @@ public class TaxiSimulator extends Thread{
         for (int line = 0; line < _plottableMap.length; line++) {
             _plottableMap[line] = _plottableMap[line].replace(Utils.smoke, Utils.navigableSpace);
             _plottableMap[line] = _plottableMap[line].replace(Utils.route, Utils.navigableSpace);
+        }
+        _taxiFrame.refeshLabels();
+    }
+    
+    public void addClients(int pCuantity){
+        while(pCuantity != 0){
+            Random rand = new Random();
+            ArrayList<Integer> indexes;
+            int  StartX = 0, StartY = 0;
+            boolean isValid = false;
+            while(!isValid){
+                StartX = (int)(Math.random() * _navigableMap.length-2 + 1);
+                indexes = Utils.getLocationsOfChar(_navigableMap[StartX], Utils.navigableSpace);
+                while(indexes.size()<=0){
+                    StartX = (int)(Math.random() * _navigableMap.length-2 + 1);
+                    indexes = Utils.getLocationsOfChar(_navigableMap[StartX], Utils.navigableSpace);
+                }
+                StartY = indexes.get(rand.nextInt(indexes.size()));
+                
+                isValid = true;
+                for(Client client : _clients){
+                    if(client.getStart().x == StartX && client.getStart().y == StartY){
+                        isValid = false;
+                        break;
+                    }
+                }
+                
+            }
+            
+            
+            
+            int  TargetX = (int)(Math.random() * _navigableMap.length-2 + 1);
+            indexes = Utils.getLocationsOfChar(_navigableMap[StartX], Utils.navigableSpace);
+            int  TargetY = indexes.get(rand.nextInt(indexes.size()));
+            while(StartX == TargetX || StartY == TargetY){
+                TargetX = (int)(Math.random() * _navigableMap.length-2 + 1);
+                indexes = Utils.getLocationsOfChar(_navigableMap[StartX], Utils.navigableSpace);
+                TargetY = indexes.get(rand.nextInt(indexes.size()));
+            }
+            
+            
+            _clients.add(new Client(new Point(StartX, StartY), new Point(TargetX, TargetY)));
+            _plottableMap[StartX] = Utils.changeCharInPosition(StartY, Utils.client, _plottableMap[StartX]);
+            pCuantity--;
         }
         _taxiFrame.refeshLabels();
     }
@@ -110,10 +161,6 @@ public class TaxiSimulator extends Thread{
             navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
             navigableSpaces.remove(minPoint);
         }
-    }
-    
-    public void addClient(int pNumber){
-        
     }
     
     @Override

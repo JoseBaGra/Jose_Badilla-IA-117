@@ -6,8 +6,6 @@
 package view;
 
 import controller.TaxiSimulator;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 
 /**
@@ -26,12 +24,15 @@ public class TaxiOptions extends javax.swing.JFrame {
         initComponents();
         _taxiSimulator = pTaxiSimulator;
         setResizable(false);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setLocationRelativeTo(null);
         setValues();
     }
     
     private void setValues(){
+        TFLDClientX.setText("");
+        TFLDClientY.setText("");
+        TFLDClients.setText("");
+        TFLDMS.setText("");
         if(_taxiSimulator.getSleep() == 0){BTNNextMove.setEnabled(true);}
         else{BTNNextMove.setEnabled(false);}
         
@@ -119,6 +120,11 @@ public class TaxiOptions extends javax.swing.JFrame {
         });
 
         BTNAddClients.setText("OK");
+        BTNAddClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNAddClientsActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Add client to");
 
@@ -292,6 +298,22 @@ public class TaxiOptions extends javax.swing.JFrame {
         _taxiSimulator.setShowTrail(!_taxiSimulator.isShowTrail());
         setValues();
     }//GEN-LAST:event_BTNShowTrailActionPerformed
+
+    private void BTNAddClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAddClientsActionPerformed
+        if(TFLDClients.getText().matches("[0-9]+")){
+            int clients = Integer.parseInt(TFLDClients.getText());
+            if(clients>0){
+                _taxiSimulator.addClients(clients);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Clients can't be negative nor zero.","Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Clients can only be numbers.","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        setValues();
+    }//GEN-LAST:event_BTNAddClientsActionPerformed
 
     /**
      * @param args the command line arguments

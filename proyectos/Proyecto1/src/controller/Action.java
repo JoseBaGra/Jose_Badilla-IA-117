@@ -19,6 +19,15 @@ public class Action {
     public void execute(TaxiSimulator pTaxiSimulator){
         // TODO code application logic here
     }
+    
+    public void fixMap(TaxiSimulator pTaxiSimulator){
+        for(Client client : pTaxiSimulator.getClients()){
+            String[] map = pTaxiSimulator.getPlottableMap();
+            map[client.getStart().x] = Utils.changeCharInPosition(client.getStart().y, Utils.client, map[client.getStart().x]);
+            pTaxiSimulator.setPlottableMap(map);
+        }
+    }
+            
     public Point getMovement() {return _movement;}  
     
 }

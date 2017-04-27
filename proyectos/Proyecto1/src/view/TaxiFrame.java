@@ -6,6 +6,7 @@
 package view;
 
 import controller.TaxiSimulator;
+import controller.Utils;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -78,6 +79,7 @@ public class TaxiFrame extends javax.swing.JFrame {
         setResizable(false);
         _taxiSimulator = pTaxiSimulator;
         addLabels();
+        setLocationRelativeTo(null);
         JLabel background = new JLabel(Dirt);
         PNLRoad.add(background);
         background.setSize(2000, 2000);
@@ -97,13 +99,7 @@ public class TaxiFrame extends javax.swing.JFrame {
                     thumb = new JLabel(Icons.get(line.charAt(j)));
                 }
                 else{
-                    if(line.charAt(j) == 'O'){
-                        int  n =  (int )(Math.random() * 4 + 1);
-                        thumb = new JLabel(Icons.get((char) n));
-                    }
-                    else{
-                        thumb = new JLabel("<html><span style='font-size:"+(SIZE-3)+"px;color:white;'>"+line.charAt(j)+"</span></html>");
-                    }
+                    thumb = new JLabel("<html><span style='font-size:"+(SIZE-3)+"px;color:white;'>"+line.charAt(j)+"</span></html>");
                 }
                 PNLRoad.add(thumb);
                 thumb.setLocation(j * SIZE , i * SIZE);
@@ -114,15 +110,22 @@ public class TaxiFrame extends javax.swing.JFrame {
             imgLabels.add(labels);
         }
         this.setSize((width) * SIZE, (height) * SIZE + 32);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
     
     public void refeshLabels(){
         for (int i = 0; i < _taxiSimulator.getPlottableMap().length; i++) {
             String line = _taxiSimulator.getPlottableMap()[i];
             for (int j = 0; j < line.length(); j++) {
-                if(imgLabels.get(i).get(j).getIcon() != Icons.get(line.charAt(j))){
+                if(line.charAt(j) == Utils.client){
+                    if(!(imgLabels.get(i).get(j).getIcon() == Person1 
+                        ||  imgLabels.get(i).get(j).getIcon() == Person2
+                        ||  imgLabels.get(i).get(j).getIcon() == Person3 
+                        ||  imgLabels.get(i).get(j).getIcon() == Person4)){
+                        int  n =  (int )(Math.random() * 4 + 1);
+                        imgLabels.get(i).get(j).setIcon(Icons.get((char) n));
+                    }
+                }
+                else if(imgLabels.get(i).get(j).getIcon() != Icons.get(line.charAt(j))){
                     imgLabels.get(i).get(j).setIcon(Icons.get(line.charAt(j)));
                 }
             }

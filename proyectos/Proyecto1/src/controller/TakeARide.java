@@ -32,5 +32,7 @@ public class TakeARide extends Action {
         else{map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.navigableSpace, map[taxiLocation.x]);}
         
         map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
+        
+        fixMap(pTaxiSimulator);
     }
 }
