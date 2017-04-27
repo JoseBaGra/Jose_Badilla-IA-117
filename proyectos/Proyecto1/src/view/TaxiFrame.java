@@ -6,7 +6,9 @@
 package view;
 
 import controller.TaxiSimulator;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +35,10 @@ public class TaxiFrame extends javax.swing.JFrame {
     private static ImageIcon Dirt = (new ImageIcon("src/img/Dirt.jpg"));
     private static ImageIcon Grass = new ImageIcon(new ImageIcon("src/img/Grass.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon Road = new ImageIcon(new ImageIcon("src/img/Road.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static ImageIcon Person1 = new ImageIcon(new ImageIcon("src/img/Person1.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static ImageIcon Person2 = new ImageIcon(new ImageIcon("src/img/Person2.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static ImageIcon Person3 = new ImageIcon(new ImageIcon("src/img/Person3.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
+    private static ImageIcon Person4 = new ImageIcon(new ImageIcon("src/img/Person4.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon RoadRoute = new ImageIcon(new ImageIcon("src/img/RoadRoute.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon Sidewalk = new ImageIcon(new ImageIcon("src/img/Sidewalk.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static ImageIcon Smoke = new ImageIcon(new ImageIcon("src/img/Smoke.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
@@ -58,6 +64,10 @@ public class TaxiFrame extends javax.swing.JFrame {
         Icons.put('⇐', BusyTaxiLeft);
         Icons.put('⇒', BusyTaxiRight);
         Icons.put('⇑', BusyTaxiUp);
+        Icons.put((char) 1, Person1);
+        Icons.put((char) 2, Person2);
+        Icons.put((char) 3, Person3);
+        Icons.put((char) 4, Person4);
     }
     
     private ArrayList<ArrayList<JLabel>> imgLabels = new ArrayList();
@@ -65,6 +75,7 @@ public class TaxiFrame extends javax.swing.JFrame {
     
     public TaxiFrame(TaxiSimulator pTaxiSimulator) {
         initComponents();
+        setResizable(false);
         _taxiSimulator = pTaxiSimulator;
         addLabels();
         JLabel background = new JLabel(Dirt);
@@ -86,7 +97,13 @@ public class TaxiFrame extends javax.swing.JFrame {
                     thumb = new JLabel(Icons.get(line.charAt(j)));
                 }
                 else{
-                    thumb = new JLabel(Road);
+                    if(line.charAt(j) == 'O'){
+                        int  n =  (int )(Math.random() * 4 + 1);
+                        thumb = new JLabel(Icons.get((char) n));
+                    }
+                    else{
+                        thumb = new JLabel("<html><span style='font-size:"+(SIZE-3)+"px;color:white;'>"+line.charAt(j)+"</span></html>");
+                    }
                 }
                 PNLRoad.add(thumb);
                 thumb.setLocation(j * SIZE , i * SIZE);
@@ -96,7 +113,9 @@ public class TaxiFrame extends javax.swing.JFrame {
             }
             imgLabels.add(labels);
         }
-        this.setSize((width) * SIZE + 18, (height) * SIZE + 38);
+        this.setSize((width) * SIZE, (height) * SIZE + 32);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
     }
     
     public void refeshLabels(){

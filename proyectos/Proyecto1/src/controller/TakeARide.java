@@ -27,7 +27,10 @@ public class TakeARide extends Action {
         else if(taxiLocation.y > getMovement().y){move = Utils.TaxiLeft;}
         else if(taxiLocation.y < getMovement().y){move = Utils.TaxiRight;}
         pTaxiSimulator.setTaxiLocation(getMovement());
-        map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.smoke, map[taxiLocation.x]);
+        
+        if(pTaxiSimulator.isShowTrail()){map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.smoke, map[taxiLocation.x]);}
+        else{map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.navigableSpace, map[taxiLocation.x]);}
+        
         map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
     }
 }

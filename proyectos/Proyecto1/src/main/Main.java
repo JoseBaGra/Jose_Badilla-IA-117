@@ -3,6 +3,7 @@ package main;
 import controller.TaxiSimulator;
 import controller.Utils;
 import view.TaxiFrame;
+import view.TaxiOptions;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,11 +25,13 @@ public class Main {
         // TODO code application logic here
         TaxiSimulator tx = new TaxiSimulator();
         TaxiFrame tf = new TaxiFrame(tx);
-        tx.setTaxiFrame(tf);
         tf.setVisible(true);
+        
+        TaxiOptions to = new TaxiOptions(tx);
+        to.setVisible(true);
+        
+        tx.setTaxiFrame(tf);
         tx.start();
-        tx.setSleep(100);
-        tx.takeARide();
     }
     
 }

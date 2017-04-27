@@ -5,6 +5,11 @@
  */
 package view;
 
+import controller.TaxiSimulator;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author joseb
@@ -14,8 +19,24 @@ public class TaxiOptions extends javax.swing.JFrame {
     /**
      * Creates new form TaxiOptions
      */
-    public TaxiOptions() {
+    
+    private static TaxiSimulator _taxiSimulator;
+    
+    public TaxiOptions(TaxiSimulator pTaxiSimulator) {
         initComponents();
+        _taxiSimulator = pTaxiSimulator;
+        setResizable(false);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        setValues();
+    }
+    
+    private void setValues(){
+        if(_taxiSimulator.getSleep() == 0){BTNNextMove.setEnabled(true);}
+        else{BTNNextMove.setEnabled(false);}
+        
+        if(_taxiSimulator.isShowTrail()){BTNShowTrail.setText("Hide trail");}
+        else{BTNShowTrail.setText("Show trail");}
     }
 
     /**
@@ -27,102 +48,112 @@ public class TaxiOptions extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Pasear = new javax.swing.JButton();
-        Buscar = new javax.swing.JButton();
-        MostarRecorrido = new javax.swing.JButton();
+        BTNTakeARide = new javax.swing.JButton();
+        BTNSearch = new javax.swing.JButton();
+        BTNShowTrail = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        Time = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        Animar = new javax.swing.JButton();
-        Siguiente = new javax.swing.JButton();
-        MostarRuta = new javax.swing.JButton();
+        TFLDMS = new javax.swing.JTextField();
+        BTNSetMS = new javax.swing.JButton();
+        BTNNextMove = new javax.swing.JButton();
+        BTNShowTravel = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        CantidadClientes = new javax.swing.JTextField();
-        AgergarClientes = new javax.swing.JButton();
+        TFLDClients = new javax.swing.JTextField();
+        BTNAddClients = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        ClienteX = new javax.swing.JTextField();
-        ClienteY = new javax.swing.JTextField();
+        TFLDClientX = new javax.swing.JTextField();
+        TFLDClientY = new javax.swing.JTextField();
+        BTNAddClient = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        AgregarCliente = new javax.swing.JButton();
-        Parqueo = new javax.swing.JTextField();
-        Parquear = new javax.swing.JButton();
+        Parking = new javax.swing.JTextField();
+        BTNPark = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        Pasear.setText("Pasear");
-        Pasear.addActionListener(new java.awt.event.ActionListener() {
+        BTNTakeARide.setText("Take a ride");
+        BTNTakeARide.setPreferredSize(new java.awt.Dimension(130, 25));
+        BTNTakeARide.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasearActionPerformed(evt);
+                BTNTakeARideActionPerformed(evt);
             }
         });
 
-        Buscar.setText("Buscar");
+        BTNSearch.setText("Search clients");
+        BTNSearch.setPreferredSize(new java.awt.Dimension(130, 25));
 
-        MostarRecorrido.setText("Mostar Recorrido");
-
-        jLabel1.setText("Animar");
-
-        Time.setPreferredSize(new java.awt.Dimension(40, 22));
-
-        jLabel2.setText("ms");
-
-        Animar.setText("Animar");
-        Animar.addActionListener(new java.awt.event.ActionListener() {
+        BTNShowTrail.setText("Show trail");
+        BTNShowTrail.setPreferredSize(new java.awt.Dimension(130, 25));
+        BTNShowTrail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AnimarActionPerformed(evt);
+                BTNShowTrailActionPerformed(evt);
             }
         });
 
-        Siguiente.setText("Siguiente");
+        jLabel1.setText("Set ms to");
 
-        MostarRuta.setText("Mostrar Ruta");
+        TFLDMS.setPreferredSize(new java.awt.Dimension(40, 22));
 
-        jLabel3.setText("Agregar Clientes");
-
-        CantidadClientes.setText(" ");
-        CantidadClientes.setPreferredSize(new java.awt.Dimension(40, 22));
-        CantidadClientes.addActionListener(new java.awt.event.ActionListener() {
+        BTNSetMS.setText("Set");
+        BTNSetMS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CantidadClientesActionPerformed(evt);
+                BTNSetMSActionPerformed(evt);
             }
         });
 
-        AgergarClientes.setText("OK");
-
-        jLabel4.setText("Agregar cliente en");
-
-        ClienteX.setText(" ");
-        ClienteX.setPreferredSize(new java.awt.Dimension(40, 22));
-        ClienteX.addActionListener(new java.awt.event.ActionListener() {
+        BTNNextMove.setText("Next Move");
+        BTNNextMove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClienteXActionPerformed(evt);
+                BTNNextMoveActionPerformed(evt);
             }
         });
 
-        ClienteY.setText(" ");
-        ClienteY.setPreferredSize(new java.awt.Dimension(40, 22));
-        ClienteY.addActionListener(new java.awt.event.ActionListener() {
+        BTNShowTravel.setText("Show Travel");
+
+        jLabel3.setText("Add clients");
+
+        TFLDClients.setText(" ");
+        TFLDClients.setPreferredSize(new java.awt.Dimension(40, 22));
+        TFLDClients.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClienteYActionPerformed(evt);
+                TFLDClientsActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Parquear en");
+        BTNAddClients.setText("OK");
 
-        AgregarCliente.setText("OK");
-        AgregarCliente.addActionListener(new java.awt.event.ActionListener() {
+        jLabel4.setText("Add client to");
+
+        TFLDClientX.setText(" ");
+        TFLDClientX.setPreferredSize(new java.awt.Dimension(40, 22));
+        TFLDClientX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AgregarClienteActionPerformed(evt);
+                TFLDClientXActionPerformed(evt);
             }
         });
 
-        Parqueo.setText(" ");
-        Parqueo.setPreferredSize(new java.awt.Dimension(30, 22));
-
-        Parquear.setText("OK");
-        Parquear.addActionListener(new java.awt.event.ActionListener() {
+        TFLDClientY.setText(" ");
+        TFLDClientY.setPreferredSize(new java.awt.Dimension(40, 22));
+        TFLDClientY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ParquearActionPerformed(evt);
+                TFLDClientYActionPerformed(evt);
+            }
+        });
+
+        BTNAddClient.setText("OK");
+        BTNAddClient.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNAddClientActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Park in");
+
+        Parking.setText(" ");
+        Parking.setPreferredSize(new java.awt.Dimension(30, 22));
+
+        BTNPark.setText("OK");
+        BTNPark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNParkActionPerformed(evt);
             }
         });
 
@@ -138,117 +169,129 @@ public class TaxiOptions extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(4, 4, 4)
-                                .addComponent(ClienteX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TFLDClientX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ClienteY, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TFLDClientY, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AgregarCliente))
+                                .addComponent(BTNAddClient))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(Parqueo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Parking, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Parquear)))
+                                .addComponent(BTNPark)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Time, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(Animar))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(MostarRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(TFLDClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Siguiente))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(Pasear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(Buscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(MostarRecorrido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(3, 3, 3)
-                                        .addComponent(CantidadClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(AgergarClientes)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addComponent(BTNAddClients))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(BTNShowTrail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BTNTakeARide, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(BTNSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(BTNShowTravel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TFLDMS, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(BTNSetMS)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BTNNextMove)
+                        .addGap(0, 0, 0))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Pasear)
+                .addComponent(BTNTakeARide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Buscar)
+                .addComponent(BTNSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MostarRecorrido)
+                .addComponent(BTNShowTrail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(Time, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(Animar)
-                    .addComponent(Siguiente))
+                    .addComponent(TFLDMS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BTNSetMS)
+                    .addComponent(BTNNextMove))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(MostarRuta)
+                .addComponent(BTNShowTravel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(CantidadClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AgergarClientes))
+                    .addComponent(TFLDClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BTNAddClients))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(ClienteX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ClienteY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AgregarCliente))
+                    .addComponent(TFLDClientX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TFLDClientY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BTNAddClient))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(Parqueo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Parquear))
+                    .addComponent(Parking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BTNPark))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AnimarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AnimarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AnimarActionPerformed
+    private void BTNSetMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSetMSActionPerformed
+        if(TFLDMS.getText().matches("[0-9]+")){
+            int ms = Integer.parseInt(TFLDMS.getText());
+            if(ms>=0){
+                _taxiSimulator.setSleep(ms);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"MS can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"MS can only be numbers.","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        setValues();
+    }//GEN-LAST:event_BTNSetMSActionPerformed
 
-    private void ClienteYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClienteYActionPerformed
+    private void TFLDClientYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDClientYActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClienteYActionPerformed
+    }//GEN-LAST:event_TFLDClientYActionPerformed
 
-    private void AgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarClienteActionPerformed
+    private void BTNAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAddClientActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_AgregarClienteActionPerformed
+    }//GEN-LAST:event_BTNAddClientActionPerformed
 
-    private void ClienteXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClienteXActionPerformed
+    private void TFLDClientXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDClientXActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClienteXActionPerformed
+    }//GEN-LAST:event_TFLDClientXActionPerformed
 
-    private void CantidadClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CantidadClientesActionPerformed
+    private void TFLDClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDClientsActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CantidadClientesActionPerformed
+    }//GEN-LAST:event_TFLDClientsActionPerformed
 
-    private void ParquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ParquearActionPerformed
+    private void BTNParkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNParkActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ParquearActionPerformed
+    }//GEN-LAST:event_BTNParkActionPerformed
 
-    private void PasearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PasearActionPerformed
+    private void BTNTakeARideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNTakeARideActionPerformed
+        _taxiSimulator.takeARide();
+    }//GEN-LAST:event_BTNTakeARideActionPerformed
+
+    private void BTNNextMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNNextMoveActionPerformed
+       _taxiSimulator.setContinue(true);
+    }//GEN-LAST:event_BTNNextMoveActionPerformed
+
+    private void BTNShowTrailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNShowTrailActionPerformed
+        _taxiSimulator.setShowTrail(!_taxiSimulator.isShowTrail());
+        setValues();
+    }//GEN-LAST:event_BTNShowTrailActionPerformed
 
     /**
      * @param args the command line arguments
@@ -280,28 +323,28 @@ public class TaxiOptions extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TaxiOptions().setVisible(true);
+                TaxiSimulator taxiSimulator = null;
+                new TaxiOptions(taxiSimulator).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AgergarClientes;
-    private javax.swing.JButton AgregarCliente;
-    private javax.swing.JButton Animar;
-    private javax.swing.JButton Buscar;
-    private javax.swing.JTextField CantidadClientes;
-    private javax.swing.JTextField ClienteX;
-    private javax.swing.JTextField ClienteY;
-    private javax.swing.JButton MostarRecorrido;
-    private javax.swing.JButton MostarRuta;
-    private javax.swing.JButton Parquear;
-    private javax.swing.JTextField Parqueo;
-    private javax.swing.JButton Pasear;
-    private javax.swing.JButton Siguiente;
-    private javax.swing.JTextField Time;
+    private javax.swing.JButton BTNAddClient;
+    private javax.swing.JButton BTNAddClients;
+    private javax.swing.JButton BTNNextMove;
+    private javax.swing.JButton BTNPark;
+    private javax.swing.JButton BTNSearch;
+    private javax.swing.JButton BTNSetMS;
+    private javax.swing.JButton BTNShowTrail;
+    private javax.swing.JButton BTNShowTravel;
+    private javax.swing.JButton BTNTakeARide;
+    private javax.swing.JTextField Parking;
+    private javax.swing.JTextField TFLDClientX;
+    private javax.swing.JTextField TFLDClientY;
+    private javax.swing.JTextField TFLDClients;
+    private javax.swing.JTextField TFLDMS;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

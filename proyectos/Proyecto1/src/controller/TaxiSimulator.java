@@ -25,6 +25,8 @@ public class TaxiSimulator extends Thread{
     private Point _taxiLocation;
     private Queue<Action> _actionsQueue;
     private TaxiFrame _taxiFrame;
+    private boolean _showTrail = false;
+    private boolean _showTravel = false;
     private boolean _runing = true;
     private boolean _paused = false;
     private boolean _continue = false;
@@ -44,11 +46,32 @@ public class TaxiSimulator extends Thread{
     public String[] getPlottableMap() {return _plottableMap;}
     public void setPlottableMap(String[] pPlottableMap) {_plottableMap = pPlottableMap;}
     public void setTaxiFrame(TaxiFrame pTaxiFrame) {_taxiFrame = pTaxiFrame;}
-    public void setSleep(int _sleep) {this._sleep = _sleep;}
+
+    public int getSleep() {return _sleep;}
+    public void setSleep(int _sleep) {this._sleep = _sleep; setContinue(true);}
+
+    public void setContinue(boolean _continue) {this._continue = _continue;}
+
+    public boolean isShowTrail() {return _showTrail;}
+    public void setShowTrail(boolean _showTrail) {
+        this._showTrail = _showTrail;
+        if(!_showTrail){clearPlottableMap();}
+    }
+    
+    public boolean isShowTravel() {return _showTravel;}
+    public void setShowTravel(boolean _showTravel) {this._showTravel = _showTravel;}
+    
     
     public Point getTaxiLocation() {return _taxiLocation;}
     public void setTaxiLocation(Point _taxiLocation) {this._taxiLocation = _taxiLocation;}
     
+    private void clearPlottableMap(){
+        for (int line = 0; line < _plottableMap.length; line++) {
+            _plottableMap[line] = _plottableMap[line].replace(Utils.smoke, Utils.navigableSpace);
+            _plottableMap[line] = _plottableMap[line].replace(Utils.route, Utils.navigableSpace);
+        }
+        _taxiFrame.refeshLabels();
+    }
     
     public void takeARide(){
         ArrayList<Point> navigableSpaces = new ArrayList<>();
@@ -89,8 +112,13 @@ public class TaxiSimulator extends Thread{
         }
     }
     
+    public void addClient(int pNumber){
+        
+    }
+    
     @Override
     public void run(){
+        String lastAction = "";
         while(_runing){
             while(_paused){
                 //stops doing anything
@@ -100,15 +128,27 @@ public class TaxiSimulator extends Thread{
                 while(!_continue){
                     //stops doing anything
                     //here waits to next move
+                    try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
                 }
                 _continue = false;
+                break;
             }
             if(!_actionsQueue.isEmpty()){
+                if(!lastAction.equals(_actionsQueue.peek().getClass().getSimpleName())){
+                    lastAction = _actionsQueue.peek().getClass().getSimpleName();
+                    clearPlottableMap();
+                }
                 _actionsQueue.poll().execute(this);
                 if(_taxiFrame != null){
                     _taxiFrame.refeshLabels();
                 }
-                try {sleep(_sleep);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+                if (_sleep>0) {
+                    try {sleep(_sleep);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+                }
+            }
+            else{
+                clearPlottableMap();
+                try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
         }
     }
