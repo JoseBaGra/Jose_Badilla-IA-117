@@ -38,6 +38,9 @@ public class TaxiOptions extends javax.swing.JFrame {
         
         if(_taxiSimulator.isShowTrail()){BTNShowTrail.setText("Hide trail");}
         else{BTNShowTrail.setText("Show trail");}
+        
+        if(_taxiSimulator.isShowTravel()){BTNShowTravel.setText("Hide travel");}
+        else{BTNShowTravel.setText("Show travel");}
     }
 
     /**
@@ -80,6 +83,11 @@ public class TaxiOptions extends javax.swing.JFrame {
 
         BTNSearch.setText("Search clients");
         BTNSearch.setPreferredSize(new java.awt.Dimension(130, 25));
+        BTNSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNSearchActionPerformed(evt);
+            }
+        });
 
         BTNShowTrail.setText("Show trail");
         BTNShowTrail.setPreferredSize(new java.awt.Dimension(130, 25));
@@ -108,6 +116,11 @@ public class TaxiOptions extends javax.swing.JFrame {
         });
 
         BTNShowTravel.setText("Show Travel");
+        BTNShowTravel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BTNShowTravelActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Add clients");
 
@@ -208,8 +221,7 @@ public class TaxiOptions extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(BTNSetMS)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BTNNextMove)
-                        .addGap(0, 0, 0))))
+                        .addComponent(BTNNextMove))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,6 +326,15 @@ public class TaxiOptions extends javax.swing.JFrame {
         }
         setValues();
     }//GEN-LAST:event_BTNAddClientsActionPerformed
+
+    private void BTNSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSearchActionPerformed
+        _taxiSimulator.searchClients();
+    }//GEN-LAST:event_BTNSearchActionPerformed
+
+    private void BTNShowTravelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNShowTravelActionPerformed
+        _taxiSimulator.setShowTravel(!_taxiSimulator.isShowTravel());
+        setValues();
+    }//GEN-LAST:event_BTNShowTravelActionPerformed
 
     /**
      * @param args the command line arguments

@@ -73,7 +73,6 @@
                       <Component id="BTNSetMS" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="BTNNextMove" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -140,6 +139,9 @@
           <Dimension value="[130, 25]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTNSearchActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="BTNShowTrail">
       <Properties>
@@ -184,6 +186,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Show Travel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BTNShowTravelActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>

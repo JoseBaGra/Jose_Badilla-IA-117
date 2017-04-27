@@ -34,7 +34,7 @@ public final class Utils {
     }
     
     public static ArrayList<Integer> getLocationsOfChar(String pString, char pChar){
-        ArrayList<Integer> returnList = new ArrayList<Integer>();
+        ArrayList<Integer> returnList = new ArrayList<>();
         for(int i = 0; i < pString.length(); i++){
             if(pString.charAt(i) == pChar){
                returnList.add(i);
