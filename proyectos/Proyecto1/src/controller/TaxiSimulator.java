@@ -143,6 +143,9 @@ public class TaxiSimulator extends Thread{
             }
         }
         
+        if(pStartX >= _map.length){return -2;}
+        if(pStartY >= _map[pStartX].length()){return -2;}
+        
         if(_navigableMap[pStartX].charAt(pStartY) != Utils.navigableSpace){
             return -2;
         }
@@ -209,6 +212,25 @@ public class TaxiSimulator extends Thread{
         else{
             return -1;
         }
+    }
+    
+    // 1=good, -1=invalid
+    public int goTo(int pTargetX, int pTargetY){
+        if(pTargetX >= _map.length){return -1;}
+        if(pTargetY >= _map[pTargetX].length()){return -1;}
+        if(_navigableMap[pTargetX].charAt(pTargetY) != Utils.navigableSpace){return -1;}
+        
+        Point taxiPivot = (Point)_taxiLocation.clone();
+        String[] navigableMap = _navigableMap.clone();
+        navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
+        ArrayList<Point> moves = Utils.AStar(navigableMap, taxiPivot, new Point(pTargetX, pTargetY));
+        while(!moves.isEmpty()){
+            Point move = moves.get(0);
+            moves.remove(move);
+            _actionsQueue.add(new Park(move, (ArrayList<Point>) moves.clone()));
+        }
+        
+        return 1;
     }
     
     public void takeARide(){
