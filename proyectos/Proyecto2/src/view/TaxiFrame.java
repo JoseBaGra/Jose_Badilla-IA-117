@@ -5,7 +5,6 @@
  */
 package view;
 
-import controller.TaxiSimulator;
 import controller.Utils;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -28,9 +27,9 @@ public class TaxiFrame extends javax.swing.JFrame {
      * Creates new form TaxiFrame
      */
     
-    private static final int SIZE = 35;
+    private static controller.Map _map;
     
-    private static TaxiSimulator _taxiSimulator;
+    private static final int SIZE = 35;
     private static final ImageIcon BusyTaxiDown = new ImageIcon(new ImageIcon("src/img/BusyTaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static final ImageIcon BusyTaxiLeft = new ImageIcon(new ImageIcon("src/img/BusyTaxiLeft.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
     private static final ImageIcon BusyTaxiRight = new ImageIcon(new ImageIcon("src/img/BusyTaxiRight.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
@@ -75,10 +74,10 @@ public class TaxiFrame extends javax.swing.JFrame {
     private ArrayList<ArrayList<JLabel>> imgLabels = new ArrayList();
     
     
-    public TaxiFrame(TaxiSimulator pTaxiSimulator) {
+    public TaxiFrame(controller.Map pMap) {
         initComponents();
         setResizable(false);
-        _taxiSimulator = pTaxiSimulator;
+        _map = pMap;
         addLabels();
         setLocationRelativeTo(null);
         JLabel background = new JLabel(Dirt);
@@ -89,9 +88,9 @@ public class TaxiFrame extends javax.swing.JFrame {
     }
     
     private void addLabels(){
-        int width=0,height=_taxiSimulator.getPlottableMap().length;
-        for (int i = 0; i < _taxiSimulator.getPlottableMap().length; i++) {
-            String line = _taxiSimulator.getPlottableMap()[i];
+        int width=0,height= _map.getPlottableMap().length;
+        for (int i = 0; i < _map.getPlottableMap().length; i++) {
+            String line = _map.getPlottableMap()[i];
             width = Integer.max(width, line.length());
             ArrayList<JLabel> labels = new ArrayList<>();
             for (int j = 0; j < line.length(); j++) {
@@ -124,8 +123,8 @@ public class TaxiFrame extends javax.swing.JFrame {
     }
     
     public void refeshLabels(){
-        for (int i = 0; i < _taxiSimulator.getPlottableMap().length; i++) {
-            String line = _taxiSimulator.getPlottableMap()[i];
+        for (int i = 0; i < _map.getPlottableMap().length; i++) {
+            String line = _map.getPlottableMap()[i];
             for (int j = 0; j < line.length(); j++) {
                 if(line.charAt(j) == Utils.client){
                     if(!(imgLabels.get(i).get(j).getIcon() == Person1 
@@ -216,8 +215,8 @@ public class TaxiFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TaxiSimulator taxiSimulator = null;
-                new TaxiFrame(taxiSimulator).setVisible(true);
+                controller.Map map = null;
+                new TaxiFrame(map).setVisible(true);
             }
         });
     }

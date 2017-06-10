@@ -406,6 +406,8 @@ public class TaxiOptions extends javax.swing.JFrame {
                 if(TFLDClientY.getText().matches("[0-9]+")){
                     int Y = Integer.parseInt(TFLDClientY.getText());
                     if(Y>=0){
+                        /*
+                        
                         int resp = _taxiSimulator.addClient(X, Y);
                         if(resp == -1){
                             JOptionPane.showMessageDialog(this,"There's something in ("+X+","+Y+").","Error",JOptionPane.ERROR_MESSAGE);
@@ -418,6 +420,7 @@ public class TaxiOptions extends javax.swing.JFrame {
                             TFLDClientY.setText("");
                             setValues();
                         }
+                        */
                     }
                     else{
                         JOptionPane.showMessageDialog(this,"Y can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
@@ -474,7 +477,7 @@ public class TaxiOptions extends javax.swing.JFrame {
         if(TFLDClients.getText().matches("[0-9]+")){
             int clients = Integer.parseInt(TFLDClients.getText());
             if(clients>0){
-                _taxiSimulator.addClients(clients);
+                //_taxiSimulator.addClients(clients);
                 TFLDClients.setText("");
             }
             else{

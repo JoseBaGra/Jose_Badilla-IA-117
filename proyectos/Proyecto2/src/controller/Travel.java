@@ -13,12 +13,10 @@ import java.util.ArrayList;
  * @author joseb
  */
 public class Travel extends Action{
-    ArrayList<Point> _route;
     Client _client;
     
-    public Travel(Point pMovement, Client pClient, ArrayList<Point> pRoute) {
+    public Travel(Point pMovement, Client pClient) {
         super(pMovement);
-        _route = pRoute;
         _client = pClient;
     }
     
@@ -29,15 +27,9 @@ public class Travel extends Action{
         
         map[_client.getStart().x] = Utils.changeCharInPosition(_client.getStart().y, Utils.navigableSpace, map[_client.getStart().x]);
         
-        ArrayList<Client> clients = pTaxiSimulator.getClients();
+        ArrayList<Client> clients = pTaxiSimulator.getMap().getClients();
         clients.remove(_client);
-        pTaxiSimulator.setClients(clients);
-        
-        if(pTaxiSimulator.isShowTravel()){
-            for(Point point : _route ){
-                map[point.x] = Utils.changeCharInPosition(point.y, Utils.route, map[point.x]);
-            }
-        }
+        pTaxiSimulator.getMap().setClients(clients);
         
         char move = ' ';
         if(taxiLocation.x > getMovement().x){move = Utils.BusyTaxiUp;}
@@ -46,8 +38,8 @@ public class Travel extends Action{
         else if(taxiLocation.y < getMovement().y){move = Utils.BusyTaxiRight;}
         pTaxiSimulator.setTaxiLocation(getMovement());
         
-        if(pTaxiSimulator.isShowTrail()){map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.smoke, map[taxiLocation.x]);}
-        else{map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.navigableSpace, map[taxiLocation.x]);}
+        pTaxiSimulator.addTrailPoint(taxiLocation);
+        pTaxiSimulator.removeTravelPoint(taxiLocation);
         
         map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
     }

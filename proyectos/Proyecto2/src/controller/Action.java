@@ -21,7 +21,7 @@ public class Action {
     }
     
     public void fixMap(TaxiSimulator pTaxiSimulator){
-        for(Client client : pTaxiSimulator.getClients()){
+        for(Client client : pTaxiSimulator.getMap().getClients()){
             if(!(client.getStart().x == pTaxiSimulator.getTaxiLocation().x && 
                  client.getStart().y == pTaxiSimulator.getTaxiLocation().y )){
                 String[] map = pTaxiSimulator.getPlottableMap();
