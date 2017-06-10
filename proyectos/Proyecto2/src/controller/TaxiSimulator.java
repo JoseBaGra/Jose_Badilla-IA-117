@@ -19,8 +19,8 @@ import view.TaxiFrame;
  */
 public class TaxiSimulator extends Thread{
     private final Map _map;
+    private final String _name;
     private final String[] _navigableMap;
-    private String[] _plottableMap;
     private Point _taxiLocation;
     private Queue<Action> _actionsQueue;
     private boolean _showTrail = false;
@@ -31,22 +31,21 @@ public class TaxiSimulator extends Thread{
     private boolean _paused = false;
     private boolean _continue = false;
     private int _sleep = 0;
+    private char _taxiChar = Utils.TaxiUp;
 
-    public TaxiSimulator(Map pMap, Point pLocation){
+    public TaxiSimulator(Map pMap, Point pLocation, String pName){
         _map = pMap;
+        _name = pName;
         _taxiLocation = pLocation;
         _navigableMap = pMap.getNavigableMap();
-        _plottableMap = pMap.getPlottableMap();
-        _plottableMap[pLocation.x] = Utils.changeCharInPosition(pLocation.y, Utils.TaxiUp, _plottableMap[_taxiLocation.x]);
         _trailPoints = new ArrayList<>();
         _travelPoints = new ArrayList<>();
         _actionsQueue = new LinkedList<>();
     }
 
     public Map getMap() {return _map;}
+    public String getTaxiName() {return _name;}
     public String[] getNavigableMap() {return _navigableMap;}
-    public String[] getPlottableMap() {return _plottableMap;}
-    public void setPlottableMap(String[] pPlottableMap) {_plottableMap = pPlottableMap;}
 
     public int getSleep() {return _sleep;}
     public void setSleep(int _sleep) {this._sleep = _sleep; setContinue(true);}
@@ -57,7 +56,10 @@ public class TaxiSimulator extends Thread{
     public void setShowTrail(boolean pShowTrail) {
         this._showTrail = pShowTrail;
     }
-    
+
+    public ArrayList<Point> getTrailPoints() {
+        return _trailPoints;
+    }
     public void addTrailPoint(Point p){
         for(Point pAux : _trailPoints){
             if(pAux.equals(p)){return;}
@@ -66,11 +68,13 @@ public class TaxiSimulator extends Thread{
         _trailPoints.add(p);
     }
     public void removeTrailPoint(Point p){
+        ArrayList<Point> toRemove = new ArrayList<>();
         for(Point pAux : _trailPoints){
             if(pAux.equals(p)){
-                _trailPoints.remove(pAux);
+                toRemove.add(pAux);
             }
         }
+        _trailPoints.removeAll(toRemove);
     }
     public void clearTrailPoints(){
         _trailPoints.clear();
@@ -81,6 +85,9 @@ public class TaxiSimulator extends Thread{
         this._showTravel = pShowTravel;
     }
     
+    public ArrayList<Point> getTravelPoints() {
+        return _travelPoints;
+    }
     public void addTravelPoint(Point p){
         for(Point pAux : _travelPoints){
             if(pAux.equals(p)){return;}
@@ -89,11 +96,13 @@ public class TaxiSimulator extends Thread{
         _travelPoints.add(p);
     }
     public void removeTravelPoint(Point p){
+        ArrayList<Point> toRemove = new ArrayList<>();
         for(Point pAux : _travelPoints){
             if(pAux.equals(p)){
-                _travelPoints.remove(pAux);
+                toRemove.add(pAux);
             }
         }
+        _travelPoints.removeAll(toRemove);
     }
     public void clearTravelPoints(){
         _travelPoints.clear();
@@ -104,6 +113,10 @@ public class TaxiSimulator extends Thread{
 
     public Queue<Action> getActionsQueue() {return _actionsQueue;}
     public void setActionsQueue(Queue<Action> _actionsQueue) {this._actionsQueue = _actionsQueue;}
+
+    public char getTaxiChar() {return _taxiChar;}
+    public void setTaxiChar(char pTaxiChar) {_taxiChar = pTaxiChar;}
+    
     
     
     // 1=good, -1=not found
@@ -144,8 +157,9 @@ public class TaxiSimulator extends Thread{
             ArrayList<Point> moves = Utils.AStar(navigableMap, taxiPivot, minPoint);
             while(!moves.isEmpty()){
                 Point move = moves.get(0);
+                _travelPoints.add(move);
                 moves.remove(move);
-                _actionsQueue.add(new Park(move, (ArrayList<Point>) moves.clone()));
+                _actionsQueue.add(new Park(move));
             }
             
             return 1;
@@ -167,8 +181,9 @@ public class TaxiSimulator extends Thread{
         ArrayList<Point> moves = Utils.AStar(navigableMap, taxiPivot, new Point(pTargetX, pTargetY));
         while(!moves.isEmpty()){
             Point move = moves.get(0);
+            _travelPoints.add(move);
             moves.remove(move);
-            _actionsQueue.add(new Park(move, (ArrayList<Point>) moves.clone()));
+            _actionsQueue.add(new Park(move));
         }
         
         return 1;
@@ -296,7 +311,7 @@ public class TaxiSimulator extends Thread{
             if(!_actionsQueue.isEmpty()){
                 if(!lastAction.equals(_actionsQueue.peek().getClass().getSimpleName())){
                     lastAction = _actionsQueue.peek().getClass().getSimpleName();
-                    new Action(_taxiLocation).fixMap(this);
+                    _trailPoints.clear();
                 }
                 _actionsQueue.poll().execute(this);
                 if (_sleep>0) {
@@ -304,7 +319,8 @@ public class TaxiSimulator extends Thread{
                 }
             }
             else{
-                new Action(_taxiLocation).fixMap(this);
+                _trailPoints.clear();
+                _map.refreshPlottableMap();
                 try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
         }

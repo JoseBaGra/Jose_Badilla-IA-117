@@ -26,6 +26,7 @@ public class TaxiOptions extends javax.swing.JFrame {
         _taxiSimulator = pTaxiSimulator;
         setResizable(false);
         setLocationRelativeTo(null);
+        LBLName.setText("Taxi: "+_taxiSimulator.getTaxiName());
         setValues();
     }
     
@@ -77,6 +78,7 @@ public class TaxiOptions extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         TFLDGotoY = new javax.swing.JTextField();
         BTNGoto = new javax.swing.JButton();
+        LBLName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -251,6 +253,8 @@ public class TaxiOptions extends javax.swing.JFrame {
             }
         });
 
+        LBLName.setText("Taxi:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -324,13 +328,16 @@ public class TaxiOptions extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(TFLDGotoY, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(BTNGoto)))))
+                                        .addComponent(BTNGoto))))
+                            .addComponent(LBLName))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
+                .addComponent(LBLName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BTNTakeARide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(LBLMS))
@@ -632,6 +639,7 @@ public class TaxiOptions extends javax.swing.JFrame {
     private javax.swing.JButton BTNShowTravel;
     private javax.swing.JButton BTNTakeARide;
     private javax.swing.JLabel LBLMS;
+    private javax.swing.JLabel LBLName;
     private javax.swing.JTextField TFLDClientX;
     private javax.swing.JTextField TFLDClientY;
     private javax.swing.JTextField TFLDClients;

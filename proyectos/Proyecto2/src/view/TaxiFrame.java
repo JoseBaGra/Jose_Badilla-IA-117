@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,7 +23,7 @@ import javax.swing.JOptionPane;
  *
  * @author joseb
  */
-public class TaxiFrame extends javax.swing.JFrame {
+public class TaxiFrame extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form TaxiFrame
@@ -119,7 +121,7 @@ public class TaxiFrame extends javax.swing.JFrame {
             }
             imgLabels.add(labels);
         }
-        this.setSize((width) * SIZE, (height) * SIZE + 32);
+        this.setSize((width) * SIZE, (height) * SIZE + 32 + 23);
     }
     
     public void refeshLabels(){
@@ -145,6 +147,11 @@ public class TaxiFrame extends javax.swing.JFrame {
         }
     }
     
+    @Override
+    public void update(Observable o, Object arg) {
+        refeshLabels();
+    }
+    
     
 
     /**
@@ -157,6 +164,10 @@ public class TaxiFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         PNLRoad = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -168,8 +179,25 @@ public class TaxiFrame extends javax.swing.JFrame {
         );
         PNLRoadLayout.setVerticalGroup(
             PNLRoadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 274, Short.MAX_VALUE)
         );
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setText("Add Taxi");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,6 +212,24 @@ public class TaxiFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        String strX = JOptionPane.showInputDialog("Please input the X location: ");
+        int intX = Integer.parseInt(strX);
+
+        String strY = JOptionPane.showInputDialog("Please input the Y location: ");
+        int intY = Integer.parseInt(strY);
+        
+        String taxiName = JOptionPane.showInputDialog("Please input the taxi name: ");
+        
+        int resp = _map.addTaxi(intX, intY, taxiName);
+        if(resp == -1){
+            JOptionPane.showMessageDialog(this,"That's an invalid position.","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        if(resp == -2) {
+            JOptionPane.showMessageDialog(this,"That's an invalid name (already exists).","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,5 +269,10 @@ public class TaxiFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PNLRoad;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
+
 }

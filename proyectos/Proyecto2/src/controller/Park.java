@@ -13,24 +13,14 @@ import java.util.ArrayList;
  * @author joseb
  */
 public class Park extends Action{
-    ArrayList<Point> _route;
     
-    public Park(Point pMovement, ArrayList<Point> pRoute) {
+    public Park(Point pMovement) {
         super(pMovement);
-        _route = pRoute;
     }
     
     @Override
     public void execute(TaxiSimulator pTaxiSimulator){
         Point taxiLocation = pTaxiSimulator.getTaxiLocation();
-        String[] map = pTaxiSimulator.getPlottableMap();
-        
-        
-        if(pTaxiSimulator.isShowTravel()){
-            for(Point point : _route ){
-                map[point.x] = Utils.changeCharInPosition(point.y, Utils.route, map[point.x]);
-            }
-        }
         
         char move = ' ';
         if(taxiLocation.x > getMovement().x){move = Utils.TaxiUp;}
@@ -39,10 +29,11 @@ public class Park extends Action{
         else if(taxiLocation.y < getMovement().y){move = Utils.TaxiRight;}
         pTaxiSimulator.setTaxiLocation(getMovement());
         
-        if(pTaxiSimulator.isShowTrail()){map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.smoke, map[taxiLocation.x]);}
-        else{map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.navigableSpace, map[taxiLocation.x]);}
+        pTaxiSimulator.addTrailPoint(taxiLocation);
+        pTaxiSimulator.removeTravelPoint(taxiLocation);
         
-        map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
+        pTaxiSimulator.setTaxiChar(move);
+        pTaxiSimulator.getMap().refreshPlottableMap();
     }
     
 }

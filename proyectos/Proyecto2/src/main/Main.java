@@ -27,6 +27,7 @@ public class Main {
         // TODO code application logic here
         Map map = new Map();
         TaxiFrame tf = new TaxiFrame(map);
+        map.addObserver(tf);
         tf.setVisible(true);
         /*
         

@@ -20,7 +20,6 @@ public class TakeARide extends Action {
     @Override
     public void execute(TaxiSimulator pTaxiSimulator){
         Point taxiLocation = pTaxiSimulator.getTaxiLocation();
-        String[] map = pTaxiSimulator.getPlottableMap();
         char move = ' ';
         if(taxiLocation.x > getMovement().x){move = Utils.TaxiUp;}
         else if(taxiLocation.x < getMovement().x){move = Utils.TaxiDown;}
@@ -28,11 +27,10 @@ public class TakeARide extends Action {
         else if(taxiLocation.y < getMovement().y){move = Utils.TaxiRight;}
         pTaxiSimulator.setTaxiLocation(getMovement());
         
-        if(pTaxiSimulator.isShowTrail()){map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.smoke, map[taxiLocation.x]);}
-        else{map[taxiLocation.x] = Utils.changeCharInPosition(taxiLocation.y, Utils.navigableSpace, map[taxiLocation.x]);}
+        pTaxiSimulator.addTrailPoint(taxiLocation);
+        pTaxiSimulator.removeTravelPoint(taxiLocation);
         
-        map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
-        
-        fixMap(pTaxiSimulator);
+        pTaxiSimulator.setTaxiChar(move);
+        pTaxiSimulator.getMap().refreshPlottableMap();
     }
 }

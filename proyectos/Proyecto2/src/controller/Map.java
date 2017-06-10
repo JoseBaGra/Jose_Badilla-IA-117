@@ -7,14 +7,16 @@ package controller;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 import model.Reader;
+import view.TaxiOptions;
 
 /**
  *
  * @author joseb
  */
-public class Map {
+public class Map extends Observable {
     private final String[] _map;
     private final String[] _navigableMap;
     private String[] _plottableMap;
@@ -38,8 +40,45 @@ public class Map {
     
     
     public void refreshPlottableMap(){
+        _plottableMap = _map.clone();
         for(TaxiSimulator taxi : _taxis){
+            if(taxi.isShowTrail()){
+                for(Point trail : taxi.getTrailPoints()){
+                    _plottableMap[trail.x] = Utils.changeCharInPosition(trail.y, Utils.smoke,_plottableMap[trail.x]);
+                }
+            }
+            if(taxi.isShowTravel()){
+                for(Point travel : taxi.getTravelPoints()){
+                    _plottableMap[travel.x] = Utils.changeCharInPosition(travel.y, Utils.route,_plottableMap[travel.x]);
+                }
+            }
+        }
+        for(TaxiSimulator taxi : _taxis){
+            _plottableMap[taxi.getTaxiLocation().x] = Utils.changeCharInPosition(taxi.getTaxiLocation().y, taxi.getTaxiChar() ,_plottableMap[taxi.getTaxiLocation().x]);
+        }
+        setChanged();
+        notifyObservers();
+    }
+    
+    // 1=good, -1=invalid position, -2=invalid name
+    public int addTaxi(int pLocationX , int pLocationY, String pName){
+        if(_navigableMap[pLocationX].charAt(pLocationY) != Utils.navigableSpace){
+            return -1;
+        }
+        else{
+            for(TaxiSimulator ts : _taxis){
+                if(ts.getTaxiName().equals(pName)){
+                    return -2;
+                }
+            }
             
+            TaxiSimulator ts = new TaxiSimulator(this, new Point(pLocationX, pLocationY), pName);
+            ts.start();
+            _taxis.add(ts);
+            TaxiOptions to = new TaxiOptions(ts);
+            to.setVisible(true);
+            refreshPlottableMap();
+            return 1;
         }
     }
     

@@ -21,14 +21,7 @@ public class Action {
     }
     
     public void fixMap(TaxiSimulator pTaxiSimulator){
-        for(Client client : pTaxiSimulator.getMap().getClients()){
-            if(!(client.getStart().x == pTaxiSimulator.getTaxiLocation().x && 
-                 client.getStart().y == pTaxiSimulator.getTaxiLocation().y )){
-                String[] map = pTaxiSimulator.getPlottableMap();
-                map[client.getStart().x] = Utils.changeCharInPosition(client.getStart().y, Utils.client, map[client.getStart().x]);
-                pTaxiSimulator.setPlottableMap(map);
-            }
-        }
+        
     }
             
     public Point getMovement() {return _movement;}  

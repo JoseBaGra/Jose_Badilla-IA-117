@@ -23,10 +23,7 @@ public class Travel extends Action{
     @Override
     public void execute(TaxiSimulator pTaxiSimulator){
         Point taxiLocation = pTaxiSimulator.getTaxiLocation();
-        String[] map = pTaxiSimulator.getPlottableMap();
-        
-        map[_client.getStart().x] = Utils.changeCharInPosition(_client.getStart().y, Utils.navigableSpace, map[_client.getStart().x]);
-        
+       
         ArrayList<Client> clients = pTaxiSimulator.getMap().getClients();
         clients.remove(_client);
         pTaxiSimulator.getMap().setClients(clients);
@@ -41,7 +38,8 @@ public class Travel extends Action{
         pTaxiSimulator.addTrailPoint(taxiLocation);
         pTaxiSimulator.removeTravelPoint(taxiLocation);
         
-        map[getMovement().x] = Utils.changeCharInPosition(getMovement().y, move, map[getMovement().x]);
+        pTaxiSimulator.setTaxiChar(move);
+        pTaxiSimulator.getMap().refreshPlottableMap();
     }
     
 }
