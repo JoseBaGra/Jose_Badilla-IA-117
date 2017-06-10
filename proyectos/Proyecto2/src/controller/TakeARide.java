@@ -31,6 +31,5 @@ public class TakeARide extends Action {
         pTaxiSimulator.removeTravelPoint(taxiLocation);
         
         pTaxiSimulator.setTaxiChar(move);
-        pTaxiSimulator.getMap().refreshPlottableMap();
     }
 }

@@ -43,6 +43,8 @@ public class TaxiSimulator extends Thread{
         _actionsQueue = new LinkedList<>();
     }
 
+    public void setPaused(boolean _paused) {this._paused = _paused;}
+    
     public Map getMap() {return _map;}
     public String getTaxiName() {return _name;}
     public String[] getNavigableMap() {return _navigableMap;}
@@ -297,12 +299,16 @@ public class TaxiSimulator extends Thread{
         while(_runing){
             while(_paused){
                 //stops doing anything
+                try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+            }
+            
+            if (_sleep>0) {
+                try {sleep(_sleep);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
             
             while(_sleep == 0){
                 while(!_continue){
-                    //stops doing anything
-                    //here waits to next move
+                    //stops doing anything, here waits to next move
                     try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
                 }
                 _continue = false;
@@ -314,13 +320,10 @@ public class TaxiSimulator extends Thread{
                     _trailPoints.clear();
                 }
                 _actionsQueue.poll().execute(this);
-                if (_sleep>0) {
-                    try {sleep(_sleep);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
-                }
+                
             }
             else{
                 _trailPoints.clear();
-                _map.refreshPlottableMap();
                 try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
         }

@@ -39,7 +39,6 @@ public class Travel extends Action{
         pTaxiSimulator.removeTravelPoint(taxiLocation);
         
         pTaxiSimulator.setTaxiChar(move);
-        pTaxiSimulator.getMap().refreshPlottableMap();
     }
     
 }

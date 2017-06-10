@@ -6,9 +6,12 @@
 package controller;
 
 import java.awt.Point;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Reader;
 import view.TaxiOptions;
 
@@ -22,6 +25,8 @@ public class Map extends Observable {
     private String[] _plottableMap;
     private ArrayList<Client> _clients;
     private ArrayList<TaxiSimulator> _taxis;
+    private boolean _runing = true;
+    private boolean _paused = false;
     
     public Map(){
         _map = Reader.readFileWithoutTaxi();
@@ -42,14 +47,18 @@ public class Map extends Observable {
     public void refreshPlottableMap(){
         _plottableMap = _map.clone();
         for(TaxiSimulator taxi : _taxis){
-            if(taxi.isShowTrail()){
-                for(Point trail : taxi.getTrailPoints()){
-                    _plottableMap[trail.x] = Utils.changeCharInPosition(trail.y, Utils.smoke,_plottableMap[trail.x]);
+            if(taxi.isShowTrail() || taxi.isShowTravel()){
+                if(taxi.isShowTrail()){
+                    ArrayList<Point> trails = (ArrayList<Point>)taxi.getTrailPoints().clone();
+                    for(Point trail : trails){
+                        _plottableMap[trail.x] = Utils.changeCharInPosition(trail.y, Utils.smoke,_plottableMap[trail.x]);
+                    }
                 }
-            }
-            if(taxi.isShowTravel()){
-                for(Point travel : taxi.getTravelPoints()){
-                    _plottableMap[travel.x] = Utils.changeCharInPosition(travel.y, Utils.route,_plottableMap[travel.x]);
+                if(taxi.isShowTravel()){
+                    ArrayList<Point> travels = (ArrayList<Point>)taxi.getTravelPoints().clone();
+                    for(Point travel : travels){
+                        _plottableMap[travel.x] = Utils.changeCharInPosition(travel.y, Utils.route,_plottableMap[travel.x]);
+                    }
                 }
             }
         }
@@ -71,13 +80,13 @@ public class Map extends Observable {
                     return -2;
                 }
             }
-            
-            TaxiSimulator ts = new TaxiSimulator(this, new Point(pLocationX, pLocationY), pName);
-            ts.start();
-            _taxis.add(ts);
-            TaxiOptions to = new TaxiOptions(ts);
-            to.setVisible(true);
-            refreshPlottableMap();
+            if(true){                
+                TaxiSimulator ts = new TaxiSimulator(this, new Point(pLocationX, pLocationY), pName);
+                ts.start();
+                _taxis.add(ts);
+                TaxiOptions to = new TaxiOptions(ts);
+                to.setVisible(true);
+            }
             return 1;
         }
     }
@@ -150,5 +159,23 @@ public class Map extends Observable {
         _clients.add(new Client(new Point(pStartX, pStartY), new Point(TargetX, TargetY)));
         _plottableMap[pStartX] = Utils.changeCharInPosition(pStartY, Utils.client, _plottableMap[pStartX]);
         return 1;
+    }
+    
+    public void run(){
+        int fps = 60;
+        int ms_wait = 1000/fps;
+        while(_runing){
+            while(_paused){
+                //stops doing anything
+                try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+            }
+            
+            refreshPlottableMap();
+            try {sleep(ms_wait);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+        }
+    }
+    
+    public void stop(){
+        _runing = false;
     }
 }

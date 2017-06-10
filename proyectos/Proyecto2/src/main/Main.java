@@ -29,6 +29,7 @@ public class Main {
         TaxiFrame tf = new TaxiFrame(map);
         map.addObserver(tf);
         tf.setVisible(true);
+        map.run();
         /*
         
         TaxiOptions to = new TaxiOptions(tx);

@@ -19,7 +19,7 @@ public class TaxiOptions extends javax.swing.JFrame {
      * Creates new form TaxiOptions
      */
     
-    private static TaxiSimulator _taxiSimulator;
+    private TaxiSimulator _taxiSimulator;
     
     public TaxiOptions(TaxiSimulator pTaxiSimulator) {
         initComponents();
@@ -621,8 +621,7 @@ public class TaxiOptions extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                TaxiSimulator taxiSimulator = null;
-                new TaxiOptions(taxiSimulator).setVisible(true);
+                new TaxiOptions(null).setVisible(true);
             }
         });
     }
