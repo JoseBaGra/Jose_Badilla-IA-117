@@ -5,6 +5,7 @@
  */
 package controller;
 
+import controller.FSM.FSM;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,6 +33,7 @@ public class TaxiSimulator extends Thread{
     private boolean _continue = false;
     private int _sleep = 0;
     private char _taxiChar = Utils.TaxiUp;
+    private FSM _fsm;
 
     public TaxiSimulator(Map pMap, Point pLocation, String pName){
         _map = pMap;
@@ -41,8 +43,54 @@ public class TaxiSimulator extends Thread{
         _trailPoints = new ArrayList<>();
         _travelPoints = new ArrayList<>();
         _actionsQueue = new LinkedList<>();
+        createFSM();
     }
 
+    private void createFSM(){
+        controller.FSM.GoTo sGoTo = new controller.FSM.GoTo();
+        controller.FSM.Park sPark = new controller.FSM.Park();
+        controller.FSM.SearchClients sSearchClients = new controller.FSM.SearchClients();
+        controller.FSM.TakeARide sTakeARide = new controller.FSM.TakeARide();
+        controller.FSM.Wait sWait = new controller.FSM.Wait();
+        
+        controller.FSM.State[] states = {sWait,sGoTo,sPark,sSearchClients,sTakeARide};
+        _fsm = new FSM(this, states);
+        
+        _fsm.addTransition(sGoTo,Utils.GoTo, sGoTo);
+        _fsm.addTransition(sPark,Utils.GoTo, sGoTo);
+        _fsm.addTransition(sSearchClients,Utils.GoTo, sGoTo);
+        _fsm.addTransition(sTakeARide,Utils.GoTo, sGoTo);
+        _fsm.addTransition(sWait,Utils.GoTo, sGoTo);
+        
+        _fsm.addTransition(sGoTo,Utils.ParkIn, sPark);
+        _fsm.addTransition(sPark,Utils.ParkIn, sPark);
+        _fsm.addTransition(sSearchClients,Utils.ParkIn, sPark);
+        _fsm.addTransition(sTakeARide,Utils.ParkIn, sPark);
+        _fsm.addTransition(sWait,Utils.ParkIn, sPark);
+        
+        _fsm.addTransition(sGoTo,Utils.SearchClients, sSearchClients);
+        _fsm.addTransition(sPark,Utils.SearchClients, sSearchClients);
+        _fsm.addTransition(sSearchClients,Utils.SearchClients, sSearchClients);
+        _fsm.addTransition(sTakeARide,Utils.SearchClients, sSearchClients);
+        _fsm.addTransition(sWait,Utils.SearchClients, sSearchClients);
+        
+        _fsm.addTransition(sGoTo,Utils.TakeARide, sTakeARide);
+        _fsm.addTransition(sPark,Utils.TakeARide, sTakeARide);
+        _fsm.addTransition(sSearchClients,Utils.TakeARide, sTakeARide);
+        _fsm.addTransition(sTakeARide,Utils.TakeARide, sTakeARide);
+        _fsm.addTransition(sWait,Utils.TakeARide, sTakeARide);
+        
+        _fsm.addTransition(sGoTo,Utils.Wait, sWait);
+        _fsm.addTransition(sPark,Utils.Wait, sWait);
+        _fsm.addTransition(sSearchClients,Utils.Wait, sWait);
+        _fsm.addTransition(sTakeARide,Utils.Wait, sWait);
+        _fsm.addTransition(sWait,Utils.Wait, sWait);
+    }
+    
+    public int changeState(String pKey){
+        return _fsm.changeState(pKey);
+    }
+    
     public void setPaused(boolean _paused) {this._paused = _paused;}
     
     public Map getMap() {return _map;}

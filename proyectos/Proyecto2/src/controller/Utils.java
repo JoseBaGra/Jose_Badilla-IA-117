@@ -66,6 +66,12 @@ public final class Utils {
     public static final char BusyTaxiUp='⇑';
     
     
+    public static final String GoTo = "GoTo";
+    public static final String ParkIn = "ParkIn";
+    public static final String SearchClients = "SearchClients";
+    public static final String TakeARide = "TakeARide";
+    public static final String Wait = "Wait";
+    
     public static ArrayList<Point> AStar(String[] pMap, Point pStart, Point pTarget){
         PriorityQueue<AStarNode> openList = new PriorityQueue<AStarNode>();
         HashSet<AStarNode> posibleList = new HashSet<>();

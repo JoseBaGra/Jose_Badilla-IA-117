@@ -25,7 +25,7 @@ public class Main {
      */
     public static void main(String[] args){
         // TODO code application logic here
-        Map map = new Map();
+        Map map = Map.getInstance();
         TaxiFrame tf = new TaxiFrame(map);
         map.addObserver(tf);
         tf.setVisible(true);

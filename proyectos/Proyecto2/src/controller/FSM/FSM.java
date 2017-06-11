@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.FSM;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,17 +32,23 @@ public class FSM {
         _actualState = _states[0];
         _transitions = new HashMap<>();
     }
+
+    public Object getOwner() {
+        return _owner;
+    }
     
     public void addTransition(State pInitial, String pKey, State pFinal){
-        _transitions.put(new Transition(pFinal, pKey), pFinal);
+        _transitions.put(new Transition(pInitial, pKey), pFinal);
     }
 
-    public void changeState(String pKey){
+    public int changeState(String pKey){
         State newState = _transitions.get(new Transition(_actualState, pKey));
         if(newState != null){
-            _actualState.onExit(this);
-            newState.onEnter(this);
+            _actualState.onExit(this,pKey);
             _actualState = newState;
+            int resp = newState.onEnter(this,pKey);
+            return resp;
         }
+        return -1;
     }
 }

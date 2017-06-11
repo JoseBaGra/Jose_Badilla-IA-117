@@ -27,13 +27,25 @@ public class Map extends Observable {
     private ArrayList<TaxiSimulator> _taxis;
     private boolean _runing = true;
     private boolean _paused = false;
+    private static Map INSTANCE = null;
     
-    public Map(){
+    private Map(){
         _map = Reader.readFileWithoutTaxi();
         _navigableMap = Utils.makeNavigableMap(_map);
         _plottableMap = _map.clone();
         _clients = new ArrayList<>();
         _taxis = new ArrayList<>();
+    }
+    
+    private synchronized static void createInstance() {
+        if (INSTANCE == null) { 
+            INSTANCE = new Map();
+        }
+    }
+
+    public static Map getInstance() {
+        if (INSTANCE == null){createInstance();}
+        return INSTANCE;
     }
 
     public String[] getMap() {return _map;}

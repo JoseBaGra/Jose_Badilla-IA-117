@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.FSM;
 
 /**
  *
  * @author joseb
  */
-public class State {
+public class State{
     
-    public void onEnter(FSM pFSM) {}
+    public int onEnter(FSM pFSM, String pKey) {return 1;}
     
-    public void onUpdate(FSM pFSM) {}
+    public int onUpdate(FSM pFSM, String pKey) {return 1;}
     
-    public void onExit(FSM pFSM) {}
+    public int onExit(FSM pFSM, String pKey) {return 1;}
+    
 }

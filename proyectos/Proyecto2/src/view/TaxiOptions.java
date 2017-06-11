@@ -6,6 +6,7 @@
 package view;
 
 import controller.TaxiSimulator;
+import controller.Utils;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
@@ -457,7 +458,7 @@ public class TaxiOptions extends javax.swing.JFrame {
 
     private void BTNParkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNParkActionPerformed
         if(!TFLDParking.getText().equals("")){
-            int resp = _taxiSimulator.parkIn(TFLDParking.getText());
+            int resp =  _taxiSimulator.changeState(Utils.ParkIn+","+TFLDParking.getText());
             if(resp == -1){
                 JOptionPane.showMessageDialog(this,"'" + TFLDParking.getText() + "' doesn't exist.","Error",JOptionPane.ERROR_MESSAGE);
             }
@@ -468,7 +469,7 @@ public class TaxiOptions extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNParkActionPerformed
 
     private void BTNTakeARideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNTakeARideActionPerformed
-        _taxiSimulator.takeARide();
+        _taxiSimulator.changeState(Utils.TakeARide);
     }//GEN-LAST:event_BTNTakeARideActionPerformed
 
     private void BTNNextMoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNNextMoveActionPerformed
@@ -498,7 +499,7 @@ public class TaxiOptions extends javax.swing.JFrame {
     }//GEN-LAST:event_BTNAddClientsActionPerformed
 
     private void BTNSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSearchActionPerformed
-        _taxiSimulator.searchClients();
+        _taxiSimulator.changeState(Utils.SearchClients);
     }//GEN-LAST:event_BTNSearchActionPerformed
 
     private void BTNShowTravelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNShowTravelActionPerformed
@@ -521,7 +522,7 @@ public class TaxiOptions extends javax.swing.JFrame {
                 if(TFLDGotoY.getText().matches("[0-9]+")){
                     int Y = Integer.parseInt(TFLDGotoY.getText());
                     if(Y>=0){
-                        int resp = _taxiSimulator.goTo(X, Y);
+                        int resp = _taxiSimulator.changeState(Utils.GoTo+","+X+","+Y);
                         if(resp == -1){
                             JOptionPane.showMessageDialog(this,"Invalid point on ("+X+","+Y+").","Error",JOptionPane.ERROR_MESSAGE);
                         }
