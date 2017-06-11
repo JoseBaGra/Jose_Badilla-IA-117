@@ -27,6 +27,7 @@ public class Map extends Observable {
     private ArrayList<TaxiSimulator> _taxis;
     private boolean _runing = true;
     private boolean _paused = false;
+    private int _hour = 0;
     private static Map INSTANCE = null;
     
     private Map(){
@@ -53,6 +54,7 @@ public class Map extends Observable {
     public String[] getPlottableMap() {return _plottableMap;}
     public ArrayList<Client> getClients() {return _clients;}
     public void setClients(ArrayList<Client> _clients) {this._clients = _clients;}
+    public int getHour(){return _hour;}
     
     
     
@@ -189,5 +191,18 @@ public class Map extends Observable {
     
     public void stop(){
         _runing = false;
+    }
+
+    public void startTimer(double pHourDuration) {
+        int ms_wait = (int)(pHourDuration * 1000);
+        while (_runing) {            
+            while(_paused){
+                //stops doing anything
+                try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+            }
+            _hour++;
+            _hour%=24;
+            try {sleep(ms_wait);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+        }
     }
 }

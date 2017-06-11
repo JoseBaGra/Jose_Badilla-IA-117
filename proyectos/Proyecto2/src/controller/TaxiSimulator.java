@@ -171,12 +171,13 @@ public class TaxiSimulator extends Thread{
     
     // 1=good, -1=not found
     public int parkIn(String pLocation){
+        String[] map = _map.getMap().clone();
         boolean found = false;
         int x = 0, y = 0;
-        for (x = 0; x < _navigableMap.length; x++) {
-            if(_navigableMap[x].contains(pLocation)){
+        for (x = 0; x < map.length; x++) {
+            if(map[x].contains(pLocation)){
                 found = true;
-                y = _navigableMap[x].indexOf(pLocation);
+                y = map[x].indexOf(pLocation);
                 break;
             }
         }

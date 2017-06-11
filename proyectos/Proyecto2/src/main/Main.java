@@ -1,11 +1,7 @@
 package main;
 
 import controller.Map;
-import controller.TaxiSimulator;
-import controller.Utils;
-import java.util.ArrayList;
 import view.TaxiFrame;
-import view.TaxiOptions;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,16 +24,9 @@ public class Main {
         Map map = Map.getInstance();
         TaxiFrame tf = new TaxiFrame(map);
         map.addObserver(tf);
+        new Thread(() -> map.run()).start();
+        new Thread(() -> map.startTimer(1.5)).start();
         tf.setVisible(true);
-        map.run();
-        /*
-        
-        TaxiOptions to = new TaxiOptions(tx);
-        to.setVisible(true);
-        
-        tx.setTaxiFrame(tf);
-        tx.start();
-        */
     }
     
 }

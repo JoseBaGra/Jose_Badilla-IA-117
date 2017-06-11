@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -74,7 +75,7 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
     }
     
     private ArrayList<ArrayList<JLabel>> imgLabels = new ArrayList();
-    
+    private JLabel hour;
     
     public TaxiFrame(controller.Map pMap) {
         initComponents();
@@ -120,8 +121,15 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
                 labels.add(thumb);
             }
             imgLabels.add(labels);
+            
         }
         this.setSize((width) * SIZE, (height) * SIZE + 32 + 23);
+        
+        hour = new JLabel("<html><span style='font-size:"+(SIZE)+"px;color:white;'>"+_map.getHour()+":00</span></html>",SwingConstants.RIGHT);
+        PNLRoad.add(hour);
+        hour.setLocation((int)((width) * SIZE - (SIZE*3.2)), 0);
+        hour.setSize(SIZE*3, SIZE);
+        hour.setVisible(true);
     }
     
     public void refeshLabels(){
@@ -145,6 +153,7 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
                 }
             }
         }
+        hour.setText("<html><span style='font-size:"+(SIZE-3)+"px;color:white;'>"+_map.getHour()+":00</span></html>");
     }
     
     @Override
@@ -215,12 +224,25 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         String strX = JOptionPane.showInputDialog("Please input the X location: ");
+        if(strX == null)return;
+        while(!strX.matches("[0-9]+")){
+            JOptionPane.showMessageDialog(this,"X can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
+            strX = JOptionPane.showInputDialog("Please input the X location: ");
+            if(strX == null)return;
+        }
         int intX = Integer.parseInt(strX);
 
         String strY = JOptionPane.showInputDialog("Please input the Y location: ");
+        if(strY == null)return;
+        while(!strY.matches("[0-9]+")){
+            JOptionPane.showMessageDialog(this,"Y can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
+            strY = JOptionPane.showInputDialog("Please input the X location: ");
+            if(strY == null)return;
+        }
         int intY = Integer.parseInt(strY);
         
         String taxiName = JOptionPane.showInputDialog("Please input the taxi name: ");
+        if(taxiName==null)return;
         
         int resp = _map.addTaxi(intX, intY, taxiName);
         if(resp == -1){
