@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -151,6 +152,17 @@ public final class Utils {
             int H = H(new Point(taxi.x, taxi.y-1), pTarget);
             pOpenList.add(new AStarNode(pStart,H,pStart.getG()+1,"LEFT",pivotMap));
         }
+    }
+    
+    public static Integer askInt(String pMessage, String pError, javax.swing.JFrame pFrame){
+        String str = JOptionPane.showInputDialog(pMessage);
+        if(str == null)return null;
+        while(!str.matches("[0-9]+")){
+            JOptionPane.showMessageDialog(pFrame,"X can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
+            str = JOptionPane.showInputDialog("Please input the X home location: ");
+            if(str == null)return null;
+        }
+        return Integer.parseInt(str);
     }
     
 }

@@ -28,7 +28,7 @@ public class TakeARide extends Action {
         pTaxiSimulator.setTaxiLocation(getMovement());
         
         pTaxiSimulator.addTrailPoint(taxiLocation);
-        pTaxiSimulator.removeTravelPoint(taxiLocation);
+        //pTaxiSimulator.removeTravelPoint(taxiLocation);
         
         pTaxiSimulator.setTaxiChar(move);
     }

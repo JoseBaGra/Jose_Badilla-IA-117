@@ -12,7 +12,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import view.TaxiFrame;
 
 /**
  *
@@ -232,11 +231,11 @@ public class TaxiSimulator extends Thread{
         ArrayList<Point> moves = Utils.AStar(navigableMap, taxiPivot, new Point(pTargetX, pTargetY));
         while(!moves.isEmpty()){
             Point move = moves.get(0);
-            _travelPoints.add(move);
+            addTravelPoint(move);
             moves.remove(move);
             _actionsQueue.add(new Park(move));
         }
-        
+        System.out.println(_travelPoints);
         return 1;
     }
     
@@ -296,7 +295,7 @@ public class TaxiSimulator extends Thread{
         ArrayList<Point> moves = null;
         String[] navigableMap = _navigableMap.clone();
         boolean findClient = false;
-        while(!navigableSpaces.isEmpty() && !findClient) {            
+        while(!navigableSpaces.isEmpty() && !findClient) {         
             double minValue = Integer.MAX_VALUE;
             Point minPoint = null;
             Client minClient = null;
@@ -311,10 +310,12 @@ public class TaxiSimulator extends Thread{
             
             ArrayList<Client> clients = _map.getClients();
             for(Client client : clients){
-                if(client.getStart().x == minPoint.x && client.getStart().y == minPoint.y){
-                    findClient = true;
-                    minClient = client;
-                    break;
+                if(!client.isIsTraveling() && (client.isSearchingHome() || client.isSearchingJob())){
+                    if(client.getStart().x == minPoint.x && client.getStart().y == minPoint.y){
+                        findClient = true;
+                        minClient = client;
+                        break;
+                    }
                 }
             }
             
@@ -331,6 +332,7 @@ public class TaxiSimulator extends Thread{
             
             if(findClient){
                 //System.out.println("N:" +navigableMap + " T:" + taxiPivot + " P:" + minClient.getTarget() + "\n");
+                minClient.setIsTraveling(true);
                 moves = Utils.AStar(navigableMap, taxiPivot, minClient.getTarget());
                 while(!moves.isEmpty()){
                     Point move = moves.get(0);
@@ -338,6 +340,7 @@ public class TaxiSimulator extends Thread{
                     _actionsQueue.add(new Travel(move, minClient));
                     addTravelPoint(move);
                 }
+                _actionsQueue.add(new Travel(null, minClient));
             }
         }
     }
@@ -373,6 +376,7 @@ public class TaxiSimulator extends Thread{
             }
             else{
                 _trailPoints.clear();
+                _travelPoints.clear();
                 try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
         }

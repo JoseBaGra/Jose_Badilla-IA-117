@@ -176,6 +176,7 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -201,6 +202,14 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem2.setText("Add Client");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -223,23 +232,11 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        String strX = JOptionPane.showInputDialog("Please input the X location: ");
-        if(strX == null)return;
-        while(!strX.matches("[0-9]+")){
-            JOptionPane.showMessageDialog(this,"X can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
-            strX = JOptionPane.showInputDialog("Please input the X location: ");
-            if(strX == null)return;
-        }
-        int intX = Integer.parseInt(strX);
-
-        String strY = JOptionPane.showInputDialog("Please input the Y location: ");
-        if(strY == null)return;
-        while(!strY.matches("[0-9]+")){
-            JOptionPane.showMessageDialog(this,"Y can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
-            strY = JOptionPane.showInputDialog("Please input the X location: ");
-            if(strY == null)return;
-        }
-        int intY = Integer.parseInt(strY);
+        Integer intX = Utils.askInt("Please input the X location: ","X can only be positive.",this);
+        if(intX == null){return;}
+        
+        Integer intY = Utils.askInt("Please input the Y location: ","Y can only be positive.",this);
+        if(intY == null){return;}
         
         String taxiName = JOptionPane.showInputDialog("Please input the taxi name: ");
         if(taxiName==null)return;
@@ -252,6 +249,28 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
             JOptionPane.showMessageDialog(this,"That's an invalid name (already exists).","Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Integer intHomeX = Utils.askInt("Please input the X home location: ","X can only be positive.",this);
+        if(intHomeX == null){return;}
+
+        Integer intHomeY = Utils.askInt("Please input the Y home location: ","Y can only be positive.",this);
+        if(intHomeY == null){return;}
+        
+        Integer intGoHome = Utils.askInt("Please input the time when he go to home: ","The time can only be positive.",this);
+        if(intGoHome == null){return;}
+        
+        Integer intJobX = Utils.askInt("Please input the X job location: ","X can only be positive.",this);
+        if(intJobX == null){return;}
+        
+        Integer intJobY = Utils.askInt("Please input the Y job location: ","Y can only be positive.",this);
+        if(intJobY == null){return;}
+        
+        Integer intGoJob = Utils.askInt("Please input the time when he go to work: ","The time can only be positive.",this);
+        if(intGoJob == null){return;}
+        
+        _map.addClient(intHomeX, intHomeY, intGoHome, intJobX, intJobY, intGoJob);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,6 +314,7 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     // End of variables declaration//GEN-END:variables
 
 }

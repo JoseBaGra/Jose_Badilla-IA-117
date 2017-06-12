@@ -60,18 +60,9 @@ public class TaxiOptions extends javax.swing.JFrame {
         BTNSetMS = new javax.swing.JButton();
         BTNNextMove = new javax.swing.JButton();
         BTNShowTravel = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        TFLDClients = new javax.swing.JTextField();
-        BTNAddClients = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        TFLDClientX = new javax.swing.JTextField();
-        TFLDClientY = new javax.swing.JTextField();
-        BTNAddClient = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         TFLDParking = new javax.swing.JTextField();
         BTNPark = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         LBLMS = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -142,62 +133,6 @@ public class TaxiOptions extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Add clients");
-
-        TFLDClients.setPreferredSize(new java.awt.Dimension(40, 22));
-        TFLDClients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TFLDClientsActionPerformed(evt);
-            }
-        });
-        TFLDClients.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TFLDClientsKeyPressed(evt);
-            }
-        });
-
-        BTNAddClients.setText("OK");
-        BTNAddClients.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BTNAddClientsActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Add client to");
-
-        TFLDClientX.setMinimumSize(new java.awt.Dimension(40, 22));
-        TFLDClientX.setPreferredSize(new java.awt.Dimension(40, 22));
-        TFLDClientX.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TFLDClientXActionPerformed(evt);
-            }
-        });
-        TFLDClientX.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TFLDClientXKeyPressed(evt);
-            }
-        });
-
-        TFLDClientY.setMinimumSize(new java.awt.Dimension(40, 22));
-        TFLDClientY.setPreferredSize(new java.awt.Dimension(40, 22));
-        TFLDClientY.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TFLDClientYActionPerformed(evt);
-            }
-        });
-        TFLDClientY.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                TFLDClientYKeyPressed(evt);
-            }
-        });
-
-        BTNAddClient.setText("OK");
-        BTNAddClient.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BTNAddClientActionPerformed(evt);
-            }
-        });
-
         jLabel5.setText("Park in");
 
         TFLDParking.setPreferredSize(new java.awt.Dimension(30, 22));
@@ -218,10 +153,6 @@ public class TaxiOptions extends javax.swing.JFrame {
                 BTNParkActionPerformed(evt);
             }
         });
-
-        jLabel2.setText("x");
-
-        jLabel6.setText("y");
 
         LBLMS.setText("Actual ms:");
 
@@ -273,26 +204,7 @@ public class TaxiOptions extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(LBLMS))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BTNShowTravel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(3, 3, 3)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(TFLDClientX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel6)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(TFLDClientY, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(BTNAddClient))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(TFLDClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(BTNAddClients)))))
+                                .addComponent(BTNShowTravel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
@@ -306,7 +218,6 @@ public class TaxiOptions extends javax.swing.JFrame {
                         .addGap(5, 5, 5))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
@@ -356,19 +267,6 @@ public class TaxiOptions extends javax.swing.JFrame {
                 .addComponent(BTNShowTravel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(TFLDClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BTNAddClients))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(TFLDClientX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TFLDClientY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BTNAddClient)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(TFLDParking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BTNPark))
@@ -403,59 +301,6 @@ public class TaxiOptions extends javax.swing.JFrame {
         setValues();
     }//GEN-LAST:event_BTNSetMSActionPerformed
 
-    private void TFLDClientYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDClientYActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TFLDClientYActionPerformed
-
-    private void BTNAddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAddClientActionPerformed
-        if(TFLDClientX.getText().matches("[0-9]+")){
-            int X = Integer.parseInt(TFLDClientX.getText());
-            if(X>=0){
-                if(TFLDClientY.getText().matches("[0-9]+")){
-                    int Y = Integer.parseInt(TFLDClientY.getText());
-                    if(Y>=0){
-                        /*
-                        
-                        int resp = _taxiSimulator.addClient(X, Y);
-                        if(resp == -1){
-                            JOptionPane.showMessageDialog(this,"There's something in ("+X+","+Y+").","Error",JOptionPane.ERROR_MESSAGE);
-                        }
-                        else if(resp == -2){
-                            JOptionPane.showMessageDialog(this,"That's an invalid position.","Error",JOptionPane.ERROR_MESSAGE);
-                        }
-                        else{
-                            TFLDClientX.setText("");
-                            TFLDClientY.setText("");
-                            setValues();
-                        }
-                        */
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(this,"Y can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                else{
-                    JOptionPane.showMessageDialog(this,"Y can only be numbers.","Error",JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"X can only be positive.","Error",JOptionPane.ERROR_MESSAGE);
-            }
-            
-        }
-        else{
-            JOptionPane.showMessageDialog(this,"X can only be numbers.","Error",JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_BTNAddClientActionPerformed
-
-    private void TFLDClientXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDClientXActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TFLDClientXActionPerformed
-
-    private void TFLDClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFLDClientsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TFLDClientsActionPerformed
-
     private void BTNParkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNParkActionPerformed
         if(!TFLDParking.getText().equals("")){
             int resp =  _taxiSimulator.changeState(Utils.ParkIn+","+TFLDParking.getText());
@@ -480,23 +325,6 @@ public class TaxiOptions extends javax.swing.JFrame {
         _taxiSimulator.setShowTrail(!_taxiSimulator.isShowTrail());
         setValues();
     }//GEN-LAST:event_BTNShowTrailActionPerformed
-
-    private void BTNAddClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNAddClientsActionPerformed
-        if(TFLDClients.getText().matches("[0-9]+")){
-            int clients = Integer.parseInt(TFLDClients.getText());
-            if(clients>0){
-                //_taxiSimulator.addClients(clients);
-                TFLDClients.setText("");
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"Clients can't be negative nor zero.","Error",JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        else{
-            JOptionPane.showMessageDialog(this,"Clients can only be numbers.","Error",JOptionPane.ERROR_MESSAGE);
-        }
-        setValues();
-    }//GEN-LAST:event_BTNAddClientsActionPerformed
 
     private void BTNSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BTNSearchActionPerformed
         _taxiSimulator.changeState(Utils.SearchClients);
@@ -556,24 +384,6 @@ public class TaxiOptions extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TFLDMSKeyPressed
 
-    private void TFLDClientsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFLDClientsKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            BTNAddClientsActionPerformed(null);
-        }
-    }//GEN-LAST:event_TFLDClientsKeyPressed
-
-    private void TFLDClientXKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFLDClientXKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            BTNAddClientActionPerformed(null);
-        }
-    }//GEN-LAST:event_TFLDClientXKeyPressed
-
-    private void TFLDClientYKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFLDClientYKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            BTNAddClientActionPerformed(null);
-        }
-    }//GEN-LAST:event_TFLDClientYKeyPressed
-
     private void TFLDParkingKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFLDParkingKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             BTNParkActionPerformed(null);
@@ -628,8 +438,6 @@ public class TaxiOptions extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BTNAddClient;
-    private javax.swing.JButton BTNAddClients;
     private javax.swing.JButton BTNGoto;
     private javax.swing.JButton BTNNextMove;
     private javax.swing.JButton BTNPark;
@@ -640,19 +448,12 @@ public class TaxiOptions extends javax.swing.JFrame {
     private javax.swing.JButton BTNTakeARide;
     private javax.swing.JLabel LBLMS;
     private javax.swing.JLabel LBLName;
-    private javax.swing.JTextField TFLDClientX;
-    private javax.swing.JTextField TFLDClientY;
-    private javax.swing.JTextField TFLDClients;
     private javax.swing.JTextField TFLDGotoX;
     private javax.swing.JTextField TFLDGotoY;
     private javax.swing.JTextField TFLDMS;
     private javax.swing.JTextField TFLDParking;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

@@ -22,23 +22,25 @@ public class Travel extends Action{
     
     @Override
     public void execute(TaxiSimulator pTaxiSimulator){
-        Point taxiLocation = pTaxiSimulator.getTaxiLocation();
-       
-        ArrayList<Client> clients = pTaxiSimulator.getMap().getClients();
-        clients.remove(_client);
-        pTaxiSimulator.getMap().setClients(clients);
-        
-        char move = ' ';
-        if(taxiLocation.x > getMovement().x){move = Utils.BusyTaxiUp;}
-        else if(taxiLocation.x < getMovement().x){move = Utils.BusyTaxiDown;}
-        else if(taxiLocation.y > getMovement().y){move = Utils.BusyTaxiLeft;}
-        else if(taxiLocation.y < getMovement().y){move = Utils.BusyTaxiRight;}
-        pTaxiSimulator.setTaxiLocation(getMovement());
-        
-        pTaxiSimulator.addTrailPoint(taxiLocation);
-        pTaxiSimulator.removeTravelPoint(taxiLocation);
-        
-        pTaxiSimulator.setTaxiChar(move);
+        if(getMovement() != null){
+            Point taxiLocation = pTaxiSimulator.getTaxiLocation();
+
+            char move = ' ';
+            if(taxiLocation.x > getMovement().x){move = Utils.BusyTaxiUp;}
+            else if(taxiLocation.x < getMovement().x){move = Utils.BusyTaxiDown;}
+            else if(taxiLocation.y > getMovement().y){move = Utils.BusyTaxiLeft;}
+            else if(taxiLocation.y < getMovement().y){move = Utils.BusyTaxiRight;}
+            pTaxiSimulator.setTaxiLocation(getMovement());
+
+            pTaxiSimulator.addTrailPoint(taxiLocation);
+            pTaxiSimulator.removeTravelPoint(taxiLocation);
+
+            pTaxiSimulator.setTaxiChar(move);
+            _client.setActualPosition(getMovement());
+        }
+        else{
+            _client.setIsTraveling(false);
+        }
     }
     
 }
