@@ -51,11 +51,10 @@ public class Map extends Observable {
     public String[] getMap() {return _map;}
     public String[] getNavigableMap() {return _navigableMap;}
     public String[] getPlottableMap() {return _plottableMap;}
+    public ArrayList<TaxiSimulator> getTaxis() {return _taxis;}
     public ArrayList<Client> getClients() {return _clients;}
     public void setClients(ArrayList<Client> _clients) {this._clients = _clients;}
     public int getHour(){return _hour;}
-    
-    
     
     public void refreshPlottableMap(){
         _plottableMap = _map.clone();
@@ -80,7 +79,7 @@ public class Map extends Observable {
         }
         for (Client client : _clients) {
             if(client.isSearchingHome() || client.isSearchingJob()){
-                _plottableMap[client.getActualPosition().x] = Utils.changeCharInPosition(client.getActualPosition().y, Utils.client ,_plottableMap[client.getActualPosition().x]);
+                _plottableMap[client.getActualPosition().x] = Utils.changeCharInPosition(client.getActualPosition().y, client.getClientChar() ,_plottableMap[client.getActualPosition().x]);
             }
         }
         for(TaxiSimulator taxi : _taxis){
@@ -104,6 +103,8 @@ public class Map extends Observable {
             if(true){                
                 TaxiSimulator ts = new TaxiSimulator(this, new Point(pLocationX, pLocationY), pName);
                 ts.start();
+                // 50
+                ts.setSleep(50);
                 _taxis.add(ts);
                 TaxiOptions to = new TaxiOptions(ts);
                 to.setVisible(true);

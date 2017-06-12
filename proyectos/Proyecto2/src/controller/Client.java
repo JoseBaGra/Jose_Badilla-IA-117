@@ -6,6 +6,7 @@
 package controller;
 
 import java.awt.Point;
+import java.util.Random;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Client {
     private boolean _searchingHome;
     private boolean _searchingJob;
     private boolean _isTraveling;
+    private char _clientChar;
 
     public Client(Point pHome, int pGoHome, Point pJob, int pGoJob) {
         _home = pHome;
@@ -27,6 +29,10 @@ public class Client {
         _job = pJob;
         _goJob = pGoJob;
         _actualPosition = (Point)pHome.clone();
+        int min = 1;
+        int max = 4;
+        Random rn = new Random();
+        _clientChar = (char) (rn.nextInt(max - min + 1) + min);
     }
 
     public Point getActualPosition() {return _actualPosition;}
@@ -36,6 +42,8 @@ public class Client {
     public boolean isSearchingJob() {return _searchingJob;}
     public boolean isIsTraveling() {return _isTraveling;}
     public void setIsTraveling(boolean pIsTraveling) {_isTraveling = pIsTraveling;}
+    public char getClientChar() {return _clientChar;}
+    
     
     public void updateStatus(int pHour){
         if(pHour>=_goHome && !_actualPosition.equals(_home)){

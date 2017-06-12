@@ -5,6 +5,8 @@
  */
 package view;
 
+import controller.Client;
+import controller.TaxiSimulator;
 import controller.Utils;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -90,6 +92,35 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
         
     }
     
+    public void seeBlockClients(int x, int y){
+        ArrayList<Client> clients = (ArrayList<Client>) _map.getClients().clone();
+        int minX = x-2;int maxX = x+2;
+        int minY = y-2;int maxY = y+2;
+        int clientsQtt = 0;
+        for(Client client : clients){
+            int clientX = client.getActualPosition().x;
+            int clientY = client.getActualPosition().y;
+            if(minX<=clientX && clientX<=maxX && minY<=clientY && clientY<=maxY ) {
+                clientsQtt++;
+            }
+        }
+        
+        ArrayList<TaxiSimulator> taxis = (ArrayList<TaxiSimulator>) _map.getTaxis().clone();
+        String taxisOnPoint="";
+        for(TaxiSimulator taxi : taxis){
+            if(taxi.getTaxiLocation().x == x && taxi.getTaxiLocation().y == y){
+                if(taxisOnPoint.equals("")){taxisOnPoint="\nTaxi: \""+taxi.getTaxiName()+"\"";}
+                else{taxisOnPoint+="\nTaxi: \""+taxi.getTaxiName()+"\"";}
+            }
+        }
+        if(clientsQtt>0){
+            JOptionPane.showMessageDialog(this,"Postion ("+x+","+y+") \nClients:"+clientsQtt+taxisOnPoint);
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Postion ("+x+","+y+")"+taxisOnPoint);
+        }
+    }
+    
     private void addLabels(){
         int width=0,height= _map.getPlottableMap().length;
         for (int i = 0; i < _map.getPlottableMap().length; i++) {
@@ -115,7 +146,7 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
                 final int y = j;
                 thumb.addMouseListener(new MouseAdapter()  {  
                     public void mouseClicked(MouseEvent e){
-                        JOptionPane.showMessageDialog(frame,"Postion ("+x+","+y+")");
+                        seeBlockClients(x,y);
                     }  
                 }); 
                 labels.add(thumb);
@@ -136,18 +167,7 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
         for (int i = 0; i < _map.getPlottableMap().length; i++) {
             String line = _map.getPlottableMap()[i];
             for (int j = 0; j < line.length(); j++) {
-                if(line.charAt(j) == Utils.client){
-                    if(!(imgLabels.get(i).get(j).getIcon() == Person1 
-                        ||  imgLabels.get(i).get(j).getIcon() == Person2
-                        ||  imgLabels.get(i).get(j).getIcon() == Person3 
-                        ||  imgLabels.get(i).get(j).getIcon() == Person4)){
-                        int  n = ((i+j)%4)+1;
-                        imgLabels.get(i).get(j).setIcon(Icons.get((char) n));
-                    }
-                }
-                else if(String.valueOf(line.charAt(j)).matches("[a-zA-Z]")){
-                    
-                }
+                if(String.valueOf(line.charAt(j)).matches("[a-zA-Z]")){}
                 else if(imgLabels.get(i).get(j).getIcon() != Icons.get(line.charAt(j))){
                     imgLabels.get(i).get(j).setIcon(Icons.get(line.charAt(j)));
                 }
