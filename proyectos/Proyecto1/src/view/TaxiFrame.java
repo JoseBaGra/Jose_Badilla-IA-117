@@ -28,7 +28,7 @@ public class TaxiFrame extends javax.swing.JFrame {
      * Creates new form TaxiFrame
      */
     
-    private static final int SIZE = 20;
+    private static final int SIZE = 35;
     
     private static TaxiSimulator _taxiSimulator;
     private static final ImageIcon BusyTaxiDown = new ImageIcon(new ImageIcon("src/img/BusyTaxiDown.jpg").getImage().getScaledInstance(SIZE, SIZE, Image.SCALE_SMOOTH));
