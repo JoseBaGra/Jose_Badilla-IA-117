@@ -31,8 +31,9 @@ public class TaxiOptions extends javax.swing.JFrame {
         setValues();
     }
     
-    private void setValues(){
+    public void setValues(){
         LBLMS.setText("Actual MS:" + _taxiSimulator.getSleep());
+        LBLLocation.setText("Location: ("+_taxiSimulator.getTaxiLocation().x+","+_taxiSimulator.getTaxiLocation().y+")");
         if(_taxiSimulator.getSleep() == 0){BTNNextMove.setEnabled(true);}
         else{BTNNextMove.setEnabled(false);}
         
@@ -71,6 +72,7 @@ public class TaxiOptions extends javax.swing.JFrame {
         TFLDGotoY = new javax.swing.JTextField();
         BTNGoto = new javax.swing.JButton();
         LBLName = new javax.swing.JLabel();
+        LBLLocation = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -187,6 +189,8 @@ public class TaxiOptions extends javax.swing.JFrame {
 
         LBLName.setText("Taxi:");
 
+        LBLLocation.setText("Location: (,)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -240,15 +244,21 @@ public class TaxiOptions extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(TFLDGotoY, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(BTNGoto))))
-                            .addComponent(LBLName))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                        .addComponent(BTNGoto)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(LBLName)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LBLLocation)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
-                .addComponent(LBLName)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LBLName)
+                    .addComponent(LBLLocation))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BTNTakeARide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -446,6 +456,7 @@ public class TaxiOptions extends javax.swing.JFrame {
     private javax.swing.JButton BTNShowTrail;
     private javax.swing.JButton BTNShowTravel;
     private javax.swing.JButton BTNTakeARide;
+    private javax.swing.JLabel LBLLocation;
     private javax.swing.JLabel LBLMS;
     private javax.swing.JLabel LBLName;
     private javax.swing.JTextField TFLDGotoX;

@@ -113,11 +113,12 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
                 else{taxisOnPoint+="\nTaxi: \""+taxi.getTaxiName()+"\"";}
             }
         }
+        int trafic = Character.getNumericValue(_map.getTraficMap().clone()[x].charAt(y));
         if(clientsQtt>0){
-            JOptionPane.showMessageDialog(this,"Postion ("+x+","+y+") \nClients:"+clientsQtt+taxisOnPoint);
+            JOptionPane.showMessageDialog(this,"Postion ("+x+","+y+") \nClients:"+clientsQtt+taxisOnPoint+"\nTrafic:"+trafic);
         }
         else{
-            JOptionPane.showMessageDialog(this,"Postion ("+x+","+y+")"+taxisOnPoint);
+            JOptionPane.showMessageDialog(this,"Postion ("+x+","+y+")"+taxisOnPoint+"\nTrafic:"+trafic);
         }
     }
     
@@ -198,6 +199,8 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        MNITSwitchPause = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -232,7 +235,24 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Running");
+
+        MNITSwitchPause.setText("Pause");
+        MNITSwitchPause.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MNITSwitchPauseActionPerformed(evt);
+            }
+        });
+        jMenu2.add(MNITSwitchPause);
+
+        jMenuItem3.setText("Set MS to All");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -292,6 +312,22 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
         _map.addClient(intHomeX, intHomeY, intGoHome, intJobX, intJobY, intGoJob);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void MNITSwitchPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MNITSwitchPauseActionPerformed
+        _map.switchPause();
+        if(_map.isPaused()){
+            MNITSwitchPause.setText("Unpause");
+        }
+        else{
+            MNITSwitchPause.setText("Pause");
+        }
+    }//GEN-LAST:event_MNITSwitchPauseActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        Integer intMS = Utils.askInt("Please input the MS: ","MS can only be positive.",this);
+        if(intMS == null){return;}
+        _map.setMS(intMS);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -329,12 +365,14 @@ public class TaxiFrame extends javax.swing.JFrame implements Observer{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MNITSwitchPause;
     private javax.swing.JPanel PNLRoad;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     // End of variables declaration//GEN-END:variables
 
 }

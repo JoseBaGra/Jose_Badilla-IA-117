@@ -25,7 +25,8 @@ public class Main {
         TaxiFrame tf = new TaxiFrame(map);
         map.addObserver(tf);
         new Thread(() -> map.run()).start();
-        new Thread(() -> map.startTimer(2.5)).start();
+        new Thread(() -> map.startTimer(10)).start();
+        new Thread(() -> map.traficUpdater()).start();
         tf.setVisible(true);
     }
     

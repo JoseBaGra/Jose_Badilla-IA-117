@@ -235,7 +235,6 @@ public class TaxiSimulator extends Thread{
             moves.remove(move);
             _actionsQueue.add(new Park(move));
         }
-        System.out.println(_travelPoints);
         return 1;
     }
     
@@ -279,68 +278,97 @@ public class TaxiSimulator extends Thread{
     }
     
     public void searchClients(){
-        ArrayList<Point> navigableSpaces = new ArrayList<>();
-        
-        // x and y variables are for the point so they're not insignificant
-        for (int x = 0; x < _navigableMap.length; x++) {
-            ArrayList<Integer> indexes = Utils.getLocationsOfChar(_navigableMap[x], Utils.navigableSpace);
-            for (Integer y : indexes) {
-                if(!(_taxiLocation.x == x && _taxiLocation.y == (int)y)){
-                    navigableSpaces.add(new Point(x, y));
+        ArrayList<Client> clients = _map.getClients();
+        boolean findClient = false;
+        Client minClient = null;
+        for(Client client : clients){
+            if(!client.isIsTraveling() && (client.isSearchingHome() || client.isSearchingJob())){
+                if(client.getStart().x == _taxiLocation.x && client.getStart().y == _taxiLocation.y){
+                    findClient = true;
+                    minClient = client;
+                    break;
                 }
             }
         }
-        
-        Point taxiPivot = (Point)_taxiLocation.clone();
-        ArrayList<Point> moves = null;
-        String[] navigableMap = _navigableMap.clone();
-        boolean findClient = false;
-        while(!navigableSpaces.isEmpty() && !findClient) {         
-            double minValue = Integer.MAX_VALUE;
-            Point minPoint = null;
-            Client minClient = null;
-            for(Point point : navigableSpaces){
-                if(minValue > point.distance(taxiPivot)){
-                    minValue = point.distance(taxiPivot);
-                    minPoint = point;
-                }
-            }
-            
+        if(findClient){
+            minClient.setIsTraveling(true);
+            String[] navigableMap = _navigableMap.clone();
+            Point taxiPivot = (Point)_taxiLocation.clone();
             navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
+            ArrayList<Point> moves = Utils.AStar(navigableMap, taxiPivot, minClient.getTarget());
+            while(!moves.isEmpty()){
+                Point move = moves.get(0);
+                moves.remove(move);
+                _actionsQueue.add(new Travel(move, minClient));
+                addTravelPoint(move);
+            }
+            _actionsQueue.add(new Travel(null, minClient));
+        }
+        else{
             
-            ArrayList<Client> clients = _map.getClients();
-            for(Client client : clients){
-                if(!client.isIsTraveling() && (client.isSearchingHome() || client.isSearchingJob())){
-                    if(client.getStart().x == minPoint.x && client.getStart().y == minPoint.y){
-                        findClient = true;
-                        minClient = client;
-                        break;
+            ArrayList<Point> navigableSpaces = new ArrayList<>();
+
+            // x and y variables are for the point so they're not insignificant
+            for (int x = 0; x < _navigableMap.length; x++) {
+                ArrayList<Integer> indexes = Utils.getLocationsOfChar(_navigableMap[x], Utils.navigableSpace);
+                for (Integer y : indexes) {
+                    if(!(_taxiLocation.x == x && _taxiLocation.y == (int)y)){
+                        navigableSpaces.add(new Point(x, y));
                     }
                 }
             }
-            
-            
-            moves = Utils.AStar(navigableMap, taxiPivot, minPoint);
-            for(Point move : moves){
-                _actionsQueue.add(new SearchClient(move));
-            }
-            
-            navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.navigableSpace, navigableMap[taxiPivot.x]);
-            taxiPivot.setLocation(minPoint);
-            navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
-            navigableSpaces.remove(minPoint);
-            
-            if(findClient){
-                //System.out.println("N:" +navigableMap + " T:" + taxiPivot + " P:" + minClient.getTarget() + "\n");
-                minClient.setIsTraveling(true);
-                moves = Utils.AStar(navigableMap, taxiPivot, minClient.getTarget());
-                while(!moves.isEmpty()){
-                    Point move = moves.get(0);
-                    moves.remove(move);
-                    _actionsQueue.add(new Travel(move, minClient));
-                    addTravelPoint(move);
+
+            Point taxiPivot = (Point)_taxiLocation.clone();
+            ArrayList<Point> moves = null;
+            String[] navigableMap = _navigableMap.clone();
+            findClient = false;
+            while(!navigableSpaces.isEmpty() && !findClient) {         
+                double minValue = Integer.MAX_VALUE;
+                Point minPoint = null;
+                minClient = null;
+                for(Point point : navigableSpaces){
+                    if(minValue > point.distance(taxiPivot)){
+                        minValue = point.distance(taxiPivot);
+                        minPoint = point;
+                    }
                 }
-                _actionsQueue.add(new Travel(null, minClient));
+
+                navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
+
+                //ArrayList<Client> clients = _map.getClients();
+                for(Client client : clients){
+                    if(!client.isIsTraveling() && (client.isSearchingHome() || client.isSearchingJob())){
+                        if(client.getStart().x == minPoint.x && client.getStart().y == minPoint.y){
+                            findClient = true;
+                            minClient = client;
+                            break;
+                        }
+                    }
+                }
+
+
+                moves = Utils.AStar(navigableMap, taxiPivot, minPoint);
+                for(Point move : moves){
+                    _actionsQueue.add(new SearchClient(move));
+                }
+
+                navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.navigableSpace, navigableMap[taxiPivot.x]);
+                taxiPivot.setLocation(minPoint);
+                navigableMap[taxiPivot.x] = Utils.changeCharInPosition(taxiPivot.y, Utils.moveableTaxi, navigableMap[taxiPivot.x]);
+                navigableSpaces.remove(minPoint);
+
+                if(findClient){
+                    //System.out.println("N:" +navigableMap + " T:" + taxiPivot + " P:" + minClient.getTarget() + "\n");
+                    minClient.setIsTraveling(true);
+                    moves = Utils.AStar(navigableMap, taxiPivot, minClient.getTarget());
+                    while(!moves.isEmpty()){
+                        Point move = moves.get(0);
+                        moves.remove(move);
+                        _actionsQueue.add(new Travel(move, minClient));
+                        addTravelPoint(move);
+                    }
+                    _actionsQueue.add(new Travel(null, minClient));
+                }
             }
         }
     }
@@ -354,10 +382,6 @@ public class TaxiSimulator extends Thread{
                 try {sleep(1);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
             }
             
-            if (_sleep>0) {
-                try {sleep(_sleep);} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
-            }
-            
             while(_sleep == 0){
                 while(!_continue){
                     //stops doing anything, here waits to next move
@@ -367,6 +391,13 @@ public class TaxiSimulator extends Thread{
                 break;
             }
             if(!_actionsQueue.isEmpty()){
+                if (_sleep>0) {
+                    int cars = Character.getNumericValue(_map.getTraficMap().clone()[_taxiLocation.x].charAt(_taxiLocation.y));
+                    cars = (cars == 0) ? 1 : cars;
+                    //System.out.println(cars);
+                    try {sleep((_sleep*cars));} catch (InterruptedException ex) {Logger.getLogger(TaxiSimulator.class.getName()).log(Level.SEVERE, null, ex);}
+                }
+                
                 if(!lastAction.equals(_actionsQueue.peek().getClass().getSimpleName())){
                     lastAction = _actionsQueue.peek().getClass().getSimpleName();
                     _trailPoints.clear();

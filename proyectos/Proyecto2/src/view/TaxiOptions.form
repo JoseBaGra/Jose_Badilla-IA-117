@@ -85,10 +85,15 @@
                                       <Component id="BTNGoto" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="LBLName" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="LBLName" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="LBLLocation" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -98,7 +103,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-              <Component id="LBLName" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="LBLName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="LBLLocation" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="BTNTakeARide" min="-2" max="-2" attributes="0"/>
@@ -292,6 +300,11 @@
     <Component class="javax.swing.JLabel" name="LBLName">
       <Properties>
         <Property name="text" type="java.lang.String" value="Taxi:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="LBLLocation">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Location: (,)"/>
       </Properties>
     </Component>
   </SubComponents>
